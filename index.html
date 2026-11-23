@@ -2,10 +2,10 @@
 <html lang="pt-BR" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Namoro Virtual IA | Encontre sua Conexão Perfeita</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Namoro Virtual IA | Conexões Reais</title>
   
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,33 +21,43 @@
             sans: ['"Plus Jakarta Sans"', '"Inter"', 'sans-serif'],
           },
           colors: {
-            tinder: {
+            app: {
               flame: '#FE3C72',
               coral: '#FF655B',
               superlike: '#1786FF',
-              boost: '#AA22E0',
-              nope: '#EA4763',
-              like: '#20D695',
-              undo: '#F5B800',
+              dark: '#0B0E14',
+              surface: '#151922',
+              card: '#1C222E',
+              border: '#273142'
             }
           },
           animation: {
-            'pulse-subtle': 'pulseSubtle 2s infinite ease-in-out',
-            'float': 'float 3s ease-in-out infinite',
-            'radar': 'radar 2s cubic-bezier(0, 0.2, 0.8, 1) infinite',
+            'slide-down': 'slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'fade-in': 'fadeIn 0.25s ease-out forwards',
+            'pulse-soft': 'pulseSoft 2s infinite ease-in-out',
+            'bounce-subtle': 'bounceSubtle 1.8s infinite ease-in-out',
+            'shimmer': 'shimmer 2s infinite linear',
           },
           keyframes: {
-            pulseSubtle: {
+            slideDown: {
+              '0%': { transform: 'translateY(-100%)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'scale(0.98)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            },
+            pulseSoft: {
               '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-              '50%': { transform: 'scale(1.04)', opacity: '0.92' },
+              '50%': { transform: 'scale(1.03)', opacity: '0.9' },
             },
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-6px)' },
+            bounceSubtle: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-4px)' },
             },
-            radar: {
-              '0%': { transform: 'scale(0.8)', opacity: '0.9' },
-              '100%': { transform: 'scale(2.2)', opacity: '0' },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
             }
           }
         }
@@ -56,7 +66,6 @@
   </script>
 
   <style>
-    /* Reset & Custom Utilities */
     * {
       -webkit-tap-highlight-color: transparent;
       user-select: none;
@@ -65,13 +74,12 @@
       user-select: auto;
     }
     body {
-      background-color: #050505;
+      background-color: #07090E;
       color: #ffffff;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      overflow-x: hidden;
-      touch-action: pan-y;
+      overflow: hidden;
+      touch-action: manipulation;
     }
-    /* Hide scrollbars */
     ::-webkit-scrollbar {
       display: none;
     }
@@ -80,948 +88,662 @@
       scrollbar-width: none;
     }
 
-    /* Tinder Stamp Aesthetics */
-    .stamp-badge {
-      border-width: 4px;
-      letter-spacing: 2px;
-      font-weight: 900;
-      text-transform: uppercase;
-      border-radius: 10px;
-      pointer-events: none;
-      transition: opacity 0.1s linear, transform 0.1s ease-out;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    }
-
-    /* Card Drag Transitions */
     .card-transition {
-      transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease-out;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2), opacity 0.35s ease-out;
     }
-    
     .card-dragging {
       transition: none !important;
       cursor: grabbing;
     }
 
-    /* Neon Gradients */
-    .grad-tinder {
+    /* Gradients */
+    .grad-brand {
       background: linear-gradient(135deg, #FE3C72 0%, #FF655B 100%);
     }
     .grad-match {
-      background: linear-gradient(135deg, #FF3366 0%, #BA25DE 100%);
+      background: linear-gradient(135deg, #FF3366 0%, #8A2BE2 100%);
     }
-    .grad-card-overlay {
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 35%, rgba(0, 0, 0, 0.1) 70%, transparent 100%);
+    .grad-overlay {
+      background: linear-gradient(to top, rgba(11, 14, 20, 0.98) 0%, rgba(11, 14, 20, 0.7) 40%, rgba(11, 14, 20, 0.1) 75%, transparent 100%);
     }
 
-    /* Confetti Canvas */
-    #confetti-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+    /* Waveform visual */
+    .waveform-bar {
+      width: 3px;
+      border-radius: 3px;
+      background-color: #FE3C72;
+      transition: height 0.15s ease;
+    }
+
+    /* Stamp badges */
+    .stamp-badge {
+      border-width: 4px;
+      letter-spacing: 2px;
+      font-weight: 900;
+      text-transform: uppercase;
+      border-radius: 12px;
       pointer-events: none;
-      z-index: 60;
+      transition: opacity 0.1s linear;
     }
   </style>
 </head>
-<body class="bg-neutral-950 text-white min-h-screen flex justify-center items-center p-0 md:p-4 select-none">
+<body class="bg-neutral-950 text-white min-h-screen flex justify-center items-center md:p-4 select-none">
 
-  <!-- Mobile Simulator Container -->
-  <main id="app-container" class="max-w-md w-full mx-auto min-h-screen md:min-h-[850px] md:max-h-[900px] md:rounded-[40px] bg-neutral-950 text-white shadow-[0_0_50px_rgba(254,60,114,0.15)] relative overflow-hidden flex flex-col border border-neutral-800/80">
-    
-    <!-- Top Ambient Lights -->
-    <div class="absolute -top-24 -left-24 w-64 h-64 bg-pink-600/20 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -top-24 -right-24 w-64 h-64 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+  <!-- Mobile App Frame -->
+  <main id="app-container" class="w-full max-w-md h-[100dvh] md:h-[844px] md:max-h-[900px] md:rounded-[44px] bg-[#0B0E14] text-white shadow-[0_0_60px_rgba(254,60,114,0.18)] relative overflow-hidden flex flex-col border border-neutral-800">
 
-    <!-- Canvas for Confetti -->
-    <canvas id="confetti-canvas"></canvas>
-
-    <!-- ========================================== -->
-    <!-- ETAPA 0: TELA DE BOAS-VINDAS / PREFERÊNCIA -->
-    <!-- ========================================== -->
-    <section id="screen-welcome" class="flex-1 flex flex-col justify-between p-6 relative z-10">
-      
-      <!-- Logo Header -->
-      <header class="flex items-center justify-center space-x-2 pt-6">
-        <svg class="w-10 h-10 text-[#FE3C72] filter drop-shadow-[0_2px_12px_rgba(254,60,114,0.6)]" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12.67 1.25C12.3 0.94 11.75 1.09 11.57 1.55C10.75 3.65 9.77 5.75 8.24 7.42C6.17 9.68 4 12.06 4 15.22C4 19.53 7.58 23 12 23C16.42 23 20 19.53 20 15.22C20 11.36 17.5 8.2 15.1 5.37C14.37 4.5 13.62 3.61 12.96 2.68C12.75 2.38 12.56 1.87 12.67 1.25ZM12.06 20.95C9.09 20.95 6.68 18.54 6.68 15.57C6.68 13.56 7.78 11.71 9.49 9.85C9.84 9.47 10.45 9.7 10.48 10.22C10.63 12.34 11.75 14.28 13.5 15.24C14.07 15.55 14.15 16.35 13.62 16.74C13.15 17.09 12.68 17.55 12.68 18.27C12.68 19.16 13.39 19.88 14.29 19.88C14.93 19.88 15.49 19.51 15.74 18.98C15.93 18.58 16.47 18.49 16.77 18.82C17.15 19.24 17.38 19.79 17.38 20.39C17.38 20.7 17.13 20.95 16.82 20.95H12.06Z"/>
+    <!-- Push Notification Overlay (Banner que desce com som e vibração simulada) -->
+    <div id="push-notification" onclick="openChatFromNotification()" class="hidden absolute top-3 inset-x-3 z-50 bg-[#161C26]/95 backdrop-blur-xl border border-pink-500/40 rounded-2xl p-3 shadow-2xl shadow-pink-950/40 cursor-pointer animate-slide-down">
+      <div class="flex items-center space-x-3">
+        <div class="relative">
+          <img id="push-avatar" src="" alt="Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-[#FE3C72] shadow">
+          <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-[#161C26]"></span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-0.5">
+            <div class="flex items-center space-x-1.5">
+              <span id="push-name" class="font-extrabold text-sm text-white truncate">Larissa</span>
+              <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-pink-500/20 text-pink-400 font-bold">DEU MATCH!</span>
+            </div>
+            <span class="text-[10px] text-neutral-400 font-medium">agora</span>
+          </div>
+          <p id="push-message" class="text-xs text-neutral-200 truncate">Oi! Vi que você curtiu meu perfil... 🥰</p>
+        </div>
+      </div>
+      <div class="mt-2 pt-1.5 border-t border-white/5 flex items-center justify-between text-[11px] text-pink-400 font-bold px-1">
+        <span>Toque para responder agora</span>
+        <svg class="w-4 h-4 animate-bounce-subtle" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
         </svg>
-        <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-white via-neutral-100 to-neutral-300 bg-clip-text text-transparent">Namoro Virtual IA</span>
-      </header>
+      </div>
+    </div>
 
-      <!-- Center Pitch & Choice -->
-      <div class="my-auto space-y-6">
-        <div class="text-center space-y-2">
-          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs font-semibold">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span>+45.000 Conexões e Fantasias Ativas</span>
-          </div>
-          <h1 class="text-3xl font-extrabold text-white leading-tight">
-            Descubra quem tem <br><span class="bg-gradient-to-r from-[#FE3C72] to-[#FF655B] bg-clip-text text-transparent">química proibida</span> com você
-          </h1>
-          <p class="text-neutral-400 text-sm max-w-xs mx-auto">
-            Conversas intensas 24/7, áudios sussurrados e experiências imersivas sem julgamento.
-          </p>
-        </div>
+    <!-- Match Celebration Modal (Mini Popup não-bloqueante) -->
+    <div id="match-modal" class="hidden absolute inset-0 z-40 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+      <div class="w-20 h-20 rounded-full grad-brand flex items-center justify-center text-3xl shadow-xl shadow-pink-600/40 animate-bounce mb-3">
+        💕
+      </div>
+      <h2 class="text-3xl font-black italic tracking-tight text-white mb-1">DEU MATCH!</h2>
+      <p id="match-modal-desc" class="text-xs text-neutral-300 max-w-xs mb-6">
+        Você e <span id="match-modal-name" class="font-bold text-pink-400">Larissa</span> se curtiram.
+      </p>
 
-        <!-- Gender Preference Selector -->
-        <div class="space-y-3 pt-2">
-          <label class="text-xs uppercase tracking-wider text-neutral-400 font-bold block text-center">
-            Quem você quer conhecer hoje?
-          </label>
-          <div class="grid grid-cols-1 gap-2.5">
-            
-            <button onclick="selectGender('mulher')" id="btn-pref-mulher" class="pref-btn group relative p-3.5 rounded-2xl bg-neutral-900/90 border-2 border-pink-500/60 flex items-center justify-between transition-all duration-300 hover:border-pink-500 hover:bg-neutral-800">
-              <div class="flex items-center space-x-3.5">
-                <div class="w-11 h-11 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
-                  👠
-                </div>
-                <div class="text-left">
-                  <div class="font-bold text-white text-base flex items-center gap-1.5">
-                    Mulheres Virtuais
-                    <span class="text-[10px] bg-pink-500/20 text-pink-300 px-1.5 py-0.5 rounded font-semibold">Mais Buscado</span>
-                  </div>
-                  <div class="text-xs text-neutral-400">Streamers, vizinhas, chefes e fantasias</div>
-                </div>
-              </div>
-              <div class="check-circle w-6 h-6 rounded-full bg-[#FE3C72] text-white flex items-center justify-center shadow-lg">
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              </div>
-            </button>
-
-            <button onclick="selectGender('homem')" id="btn-pref-homem" class="pref-btn group relative p-3.5 rounded-2xl bg-neutral-900/60 border-2 border-neutral-800 flex items-center justify-between transition-all duration-300 hover:border-blue-500/60 hover:bg-neutral-800">
-              <div class="flex items-center space-x-3.5">
-                <div class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
-                  👔
-                </div>
-                <div class="text-left">
-                  <div class="font-bold text-white text-base">Homens Virtuais</div>
-                  <div class="text-xs text-neutral-400">Empresários, arquitetos, bad boys e protetores</div>
-                </div>
-              </div>
-              <div class="check-circle w-6 h-6 rounded-full border-2 border-neutral-700 flex items-center justify-center">
-              </div>
-            </button>
-
-            <button onclick="selectGender('todos')" id="btn-pref-todos" class="pref-btn group relative p-3.5 rounded-2xl bg-neutral-900/60 border-2 border-neutral-800 flex items-center justify-between transition-all duration-300 hover:border-purple-500/60 hover:bg-neutral-800">
-              <div class="flex items-center space-x-3.5">
-                <div class="w-11 h-11 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
-                  ✨
-                </div>
-                <div class="text-left">
-                  <div class="font-bold text-white text-base">Explorar Todos</div>
-                  <div class="text-xs text-neutral-400">Todas as personalidades disponíveis</div>
-                </div>
-              </div>
-              <div class="check-circle w-6 h-6 rounded-full border-2 border-neutral-700 flex items-center justify-center">
-              </div>
-            </button>
-
-          </div>
+      <div class="flex items-center justify-center space-x-4 mb-8">
+        <div class="relative">
+          <img id="match-modal-img" src="" class="w-24 h-24 rounded-full object-cover border-4 border-[#FE3C72] shadow-2xl">
+          <span class="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-black"></span>
         </div>
       </div>
 
-      <!-- Footer CTA -->
-      <div class="space-y-3 pt-4">
-        <button onclick="startDeck()" class="w-full py-4 px-6 rounded-2xl font-extrabold text-white text-lg tracking-wide shadow-xl shadow-pink-600/30 grad-tinder flex items-center justify-center space-x-3 hover:opacity-95 active:scale-[0.98] transition-all">
-          <span>COMEÇAR A EXPLORAR</span>
-          <svg class="w-6 h-6 text-white animate-bounce" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.67 1.25C12.3 0.94 11.75 1.09 11.57 1.55C10.75 3.65 9.77 5.75 8.24 7.42C6.17 9.68 4 12.06 4 15.22C4 19.53 7.58 23 12 23C16.42 23 20 19.53 20 15.22C20 11.36 17.5 8.2 15.1 5.37C14.37 4.5 13.62 3.61 12.96 2.68C12.75 2.38 12.56 1.87 12.67 1.25Z"/>
+      <div class="w-full space-y-2.5 max-w-xs">
+        <button onclick="goToChatDirect()" class="w-full py-4 px-6 rounded-2xl font-extrabold text-white text-base tracking-wide grad-brand shadow-xl shadow-pink-600/30 hover:opacity-95 active:scale-95 transition-all flex items-center justify-center space-x-2">
+          <span>CONVERSAR COM ELA AGORA</span>
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
           </svg>
         </button>
-        <div class="flex items-center justify-center space-x-4 text-[11px] text-neutral-400">
-          <span class="flex items-center gap-1">🔒 100% Sigiloso & Privado</span>
-          <span>•</span>
-          <span class="flex items-center gap-1">⚡ Respostas Imediatas</span>
-        </div>
+        <button onclick="closeMatchModalAndContinue()" class="w-full py-3 px-4 rounded-xl font-bold text-neutral-400 text-xs hover:text-white transition-colors">
+          Continuar explorando perfis
+        </button>
       </div>
+    </div>
 
-    </section>
-
-    <!-- ========================================== -->
-    <!-- ETAPA 1: SWIPE DECK ESTILO TINDER          -->
-    <!-- ========================================== -->
-    <section id="screen-deck" class="flex-1 hidden flex flex-col relative z-10 h-full overflow-hidden">
+    <!-- ============================================== -->
+    <!-- ABA 1: FEED DE PERFIS (SWIPE DECK)             -->
+    <!-- ============================================== -->
+    <section id="view-deck" class="flex-1 flex flex-col h-full relative z-10 overflow-hidden">
       
-      <!-- Top Navigation Bar -->
-      <header class="px-5 py-3.5 flex items-center justify-between border-b border-neutral-900 bg-neutral-950/80 backdrop-blur-md z-30">
-        <button onclick="returnToWelcome()" class="p-2 text-neutral-400 hover:text-white transition-colors">
-          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-          </svg>
-        </button>
-
-        <div class="flex items-center space-x-1.5">
+      <!-- Top Bar -->
+      <header class="px-5 py-3 flex items-center justify-between border-b border-neutral-800/80 bg-[#0B0E14]/90 backdrop-blur-md z-20">
+        <div class="flex items-center space-x-2">
           <svg class="w-7 h-7 text-[#FE3C72]" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12.67 1.25C12.3 0.94 11.75 1.09 11.57 1.55C10.75 3.65 9.77 5.75 8.24 7.42C6.17 9.68 4 12.06 4 15.22C4 19.53 7.58 23 12 23C16.42 23 20 19.53 20 15.22C20 11.36 17.5 8.2 15.1 5.37C14.37 4.5 13.62 3.61 12.96 2.68C12.75 2.38 12.56 1.87 12.67 1.25Z"/>
           </svg>
-          <span class="font-extrabold text-base tracking-tight text-white">Descobrir</span>
+          <span class="font-black text-lg tracking-tight bg-gradient-to-r from-white via-neutral-100 to-neutral-300 bg-clip-text text-transparent">Namoro IA</span>
         </div>
 
-        <!-- Likes Progress Indicator -->
-        <div id="deck-like-counter" class="flex items-center space-x-1 px-3 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-xs font-bold text-neutral-300">
-          <span>Likes:</span>
-          <span id="liked-count-badge" class="text-[#FE3C72] font-black">0</span>
-          <span class="text-neutral-500">/2</span>
+        <!-- Gender Filter Chips -->
+        <div class="flex items-center bg-[#151922] p-1 rounded-xl border border-neutral-800 text-[11px] font-bold">
+          <button id="chip-mulher" onclick="setGenderFilter('mulher')" class="px-2.5 py-1 rounded-lg bg-[#FE3C72] text-white transition-all">Mulheres</button>
+          <button id="chip-homem" onclick="setGenderFilter('homem')" class="px-2.5 py-1 rounded-lg text-neutral-400 hover:text-white transition-all">Homens</button>
         </div>
       </header>
 
       <!-- Tinder Stack Arena -->
-      <div id="deck-viewport" class="flex-1 relative mx-3 my-2 rounded-3xl overflow-hidden select-none bg-neutral-900/40">
-        <!-- Cards injected dynamically here -->
+      <div id="deck-viewport" class="flex-1 relative mx-3 my-2 rounded-3xl overflow-hidden select-none bg-[#121620]">
+        <!-- Cards injected dynamically -->
       </div>
 
-      <!-- Interactive Tinder Action Buttons Bar -->
-      <footer class="px-6 pt-3 pb-8 flex items-center justify-around z-30 bg-gradient-to-t from-neutral-950 via-neutral-950/90 to-transparent">
-        
+      <!-- Action Buttons Bar -->
+      <footer class="px-6 pt-2 pb-5 flex items-center justify-around z-20 bg-gradient-to-t from-[#0B0E14] via-[#0B0E14]/90 to-transparent">
         <!-- Undo Button -->
-        <button id="btn-undo" onclick="handleUndo()" title="Desfazer" class="w-11 h-11 rounded-full bg-neutral-900/90 border border-neutral-800 text-amber-400 flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all">
+        <button onclick="handleUndo()" title="Desfazer" class="w-12 h-12 rounded-full bg-[#181E29] border border-neutral-700/80 text-amber-400 flex items-center justify-center shadow-lg active:scale-95 transition-all">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a5 5 0 015 5v2m-15-7l4-4m-4 4l4 4"/>
           </svg>
         </button>
 
-        <!-- Pass / Nope Button -->
-        <button id="btn-nope" onclick="triggerSwipeAction('nope')" title="Passar" class="w-14 h-14 rounded-full bg-neutral-900/90 border border-rose-500/30 text-rose-500 flex items-center justify-center shadow-lg shadow-rose-950/30 hover:scale-110 active:scale-95 transition-all">
-          <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <!-- Nope Button -->
+        <button onclick="triggerSwipeAction('nope')" title="Passar" class="w-16 h-16 rounded-full bg-[#181E29] border-2 border-rose-500/40 text-rose-500 flex items-center justify-center shadow-xl shadow-rose-950/30 hover:scale-105 active:scale-95 transition-all">
+          <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
 
-        <!-- Super Like Button -->
-        <button id="btn-superlike" onclick="triggerSwipeAction('superlike')" title="Super Like" class="w-11 h-11 rounded-full bg-neutral-900/90 border border-neutral-800 text-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-950/30 hover:scale-110 active:scale-95 transition-all">
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
-        </button>
-
         <!-- Like Button -->
-        <button id="btn-like" onclick="triggerSwipeAction('like')" title="Curtir" class="w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center shadow-lg shadow-emerald-950/40 hover:scale-110 active:scale-95 transition-all">
-          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+        <button onclick="triggerSwipeAction('like')" title="Curtir" class="w-16 h-16 rounded-full grad-brand text-white flex items-center justify-center shadow-xl shadow-pink-600/40 hover:scale-105 active:scale-95 transition-all">
+          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
           </svg>
         </button>
 
+        <!-- Direct Chat Shortcut Button -->
+        <button onclick="switchToTab('chats')" title="Mensagens" class="relative w-12 h-12 rounded-full bg-[#181E29] border border-neutral-700/80 text-pink-400 flex items-center justify-center shadow-lg active:scale-95 transition-all">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+          </svg>
+          <span id="nav-chat-badge" class="hidden absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 text-[10px] font-black text-black flex items-center justify-center border-2 border-[#0B0E14] animate-pulse">
+            1
+          </span>
+        </button>
       </footer>
-
-      <!-- Interstitial Banner Trigger Alert -->
-      <div id="deck-alert" class="hidden absolute inset-0 bg-black/85 backdrop-blur-md z-50 flex flex-col items-center justify-center p-6 text-center animate-fade-in">
-        <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-[#FE3C72] to-[#FF655B] text-white flex items-center justify-center mb-5 animate-bounce shadow-xl shadow-pink-600/40">
-          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.67 1.25C12.3 0.94 11.75 1.09 11.57 1.55C10.75 3.65 9.77 5.75 8.24 7.42C6.17 9.68 4 12.06 4 15.22C4 19.53 7.58 23 12 23C16.42 23 20 19.53 20 15.22C20 11.36 17.5 8.2 15.1 5.37C14.37 4.5 13.62 3.61 12.96 2.68C12.75 2.38 12.56 1.87 12.67 1.25Z"/>
-          </svg>
-        </div>
-        <h2 class="text-2xl font-black text-white mb-2 leading-snug">
-          🔥 Você despertou interesse!
-        </h2>
-        <p class="text-neutral-300 text-sm max-w-xs mb-6">
-          Seus perfis curtidos querem saber se vocês realmente combinam. Responda 3 perguntas rápidas para calibrarmos sua química antes do Match.
-        </p>
-        <button onclick="goToQuiz()" class="w-full py-4 px-6 rounded-2xl font-extrabold text-white text-base tracking-wide shadow-xl shadow-pink-600/40 grad-tinder hover:opacity-95 active:scale-95 transition-all">
-          CALIBRAR MINHA QUÍMICA AGORA ✨
-        </button>
-      </div>
-
     </section>
 
-    <!-- ========================================== -->
-    <!-- ETAPA 2: FUNIL / QUIZ DE AFINIDADE         -->
-    <!-- ========================================== -->
-    <section id="screen-quiz" class="flex-1 hidden flex flex-col justify-between p-6 relative z-10">
-      
-      <!-- Quiz Header & Progress -->
-      <div>
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center space-x-2">
-            <div id="quiz-candidate-avatar" class="w-9 h-9 rounded-full bg-cover bg-center border-2 border-[#FE3C72] shadow-md"></div>
-            <div>
-              <span id="quiz-candidate-name" class="text-xs font-bold text-white block">Fernanda</span>
-              <span class="text-[10px] text-emerald-400 font-medium">Aguardando sua resposta...</span>
-            </div>
-          </div>
-          <span id="quiz-step-label" class="text-xs font-extrabold text-neutral-400 uppercase tracking-wider">Pergunta 1 de 3</span>
+    <!-- ============================================== -->
+    <!-- ABA 2: LISTA DE CONVERSAS (INBOX ESTILO WHATS) -->
+    <!-- ============================================== -->
+    <section id="view-inbox" class="flex-1 hidden flex flex-col h-full relative z-10 bg-[#0B0E14]">
+      <!-- Header Inbox -->
+      <header class="px-5 py-4 border-b border-neutral-800 flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-black text-white">Conversas</h2>
+          <span class="text-xs text-neutral-400">Pessoas que deram match com você</span>
         </div>
-
-        <!-- Progress bar -->
-        <div class="w-full bg-neutral-900 rounded-full h-2 mb-6 overflow-hidden border border-neutral-800">
-          <div id="quiz-progress-bar" class="h-full grad-tinder rounded-full transition-all duration-300 w-1/3"></div>
-        </div>
-
-        <div class="text-center mb-6">
-          <span class="text-xs font-bold text-pink-400 uppercase tracking-widest block mb-1">Calibragem de Química</span>
-          <h2 id="quiz-question-title" class="text-2xl font-black text-white leading-tight">
-            O que mais te atrai num primeiro momento?
-          </h2>
-        </div>
-
-        <!-- Questions Container -->
-        <div id="quiz-options-container" class="space-y-3">
-          <!-- Dynamic options loaded by JS -->
-        </div>
-      </div>
-
-      <!-- Micro Trust Stamp -->
-      <div class="text-center pt-4">
-        <p class="text-xs text-neutral-500 flex items-center justify-center gap-1.5">
-          <svg class="w-3.5 h-3.5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-          </svg>
-          Suas respostas são 100% confidenciais
-        </p>
-      </div>
-
-    </section>
-
-    <!-- ========================================== -->
-    <!-- ETAPA 3: PROCESSAMENTO / RADAR DE AFINIDADE -->
-    <!-- ========================================== -->
-    <section id="screen-loading" class="flex-1 hidden flex flex-col items-center justify-center p-6 text-center relative z-10">
-      
-      <!-- Futuristic Radar Graphic -->
-      <div class="relative w-48 h-48 flex items-center justify-center mb-8">
-        <!-- Radar Pulse rings -->
-        <div class="absolute inset-0 rounded-full border-2 border-pink-500/20 animate-radar"></div>
-        <div class="absolute inset-4 rounded-full border-2 border-pink-500/30 animate-radar" style="animation-delay: 0.6s"></div>
-        <div class="absolute inset-8 rounded-full border-2 border-pink-500/40 animate-radar" style="animation-delay: 1.2s"></div>
-
-        <!-- Circular Progress Ring SVG -->
-        <svg class="w-40 h-40 transform -rotate-90">
-          <circle cx="80" cy="80" r="70" stroke="currentColor" stroke-width="8" class="text-neutral-900" fill="transparent" />
-          <circle id="loading-circle" cx="80" cy="80" r="70" stroke="currentColor" stroke-width="8" class="text-[#FE3C72] transition-all duration-300" fill="transparent" stroke-dasharray="440" stroke-dashoffset="440" stroke-linecap="round" />
-        </svg>
-
-        <!-- Center percentage -->
-        <div class="absolute inset-0 flex flex-col items-center justify-center">
-          <span id="loading-percentage" class="text-4xl font-black text-white">0%</span>
-          <span class="text-[10px] font-bold text-neutral-400 tracking-wider uppercase mt-0.5">Química IA</span>
-        </div>
-      </div>
-
-      <!-- Dynamic Processing Texts -->
-      <div class="space-y-2 max-w-xs">
-        <h3 id="loading-status-text" class="text-lg font-bold text-white transition-opacity duration-300">
-          Cruzando suas respostas...
-        </h3>
-        <p class="text-xs text-neutral-400">
-          Nossa rede neural está analisando sincronia de desejos e compatibilidade afetiva.
-        </p>
-      </div>
-
-      <!-- Little simulated badges -->
-      <div class="mt-8 flex items-center gap-2">
-        <span class="px-2.5 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-[11px] text-neutral-400">Filtro Emocional ✓</span>
-        <span class="px-2.5 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-[11px] text-neutral-400">Sigilo Absoluto ✓</span>
-      </div>
-
-    </section>
-
-    <!-- ========================================== -->
-    <!-- ETAPA 4: TELA DE MATCH INTERATIVA          -->
-    <!-- ========================================== -->
-    <section id="screen-match" class="flex-1 hidden flex flex-col justify-between p-6 relative z-10 overflow-y-auto">
-      
-      <!-- Top Celebration Banner -->
-      <div class="text-center pt-2">
-        <div class="inline-block animate-float">
-          <h1 class="text-4xl font-black italic tracking-tighter bg-gradient-to-r from-[#FE3C72] via-[#FF655B] to-amber-400 bg-clip-text text-transparent drop-shadow-lg">
-            DEU MATCH! 💕
-          </h1>
-        </div>
-        <p id="match-compatibility-text" class="text-sm font-bold text-neutral-300 mt-1">
-          Vocês têm <span class="text-emerald-400 font-extrabold text-base">98% de compatibilidade afetiva!</span>
-        </p>
-      </div>
-
-      <!-- Intersecting Match Avatars -->
-      <div class="relative flex items-center justify-center my-4">
-        <!-- Persona Avatar -->
-        <div class="relative z-10 -mr-4 group">
-          <div id="match-persona-avatar" class="w-24 h-24 rounded-full bg-cover bg-center border-4 border-[#FE3C72] shadow-2xl shadow-pink-600/50"></div>
-          <span class="absolute bottom-0 right-2 w-4 h-4 rounded-full bg-emerald-500 border-2 border-neutral-950"></span>
-        </div>
-
-        <!-- Center Heart Bridge -->
-        <div class="z-20 w-11 h-11 rounded-full bg-neutral-950 border-2 border-pink-500 text-pink-500 flex items-center justify-center shadow-lg animate-pulse">
-          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-          </svg>
-        </div>
-
-        <!-- User Avatar -->
-        <div class="relative z-10 -ml-4">
-          <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-neutral-800 to-neutral-700 border-4 border-emerald-400 flex items-center justify-center text-3xl shadow-2xl">
-            😎
-          </div>
-          <span class="absolute bottom-0 right-2 w-4 h-4 rounded-full bg-emerald-500 border-2 border-neutral-950"></span>
-        </div>
-      </div>
-
-      <!-- Exclusive Persona Intro Message Bubble -->
-      <div class="bg-neutral-900/90 border border-neutral-800 rounded-2xl p-4 shadow-xl relative mb-4">
-        <div class="flex items-center space-x-2 mb-2">
-          <span id="match-persona-name-tag" class="text-xs font-black text-pink-400">Fernanda</span>
-          <span class="text-[10px] text-neutral-400 font-medium">• Mensagem exclusiva para você:</span>
-        </div>
-        <p id="match-exclusive-msg" class="text-sm text-neutral-100 italic leading-relaxed">
-          "Eu sabia que você tinha esse lado selvagem... Já imaginei nós dois trancados sem ninguém pra interromper. Vem falar comigo no WhatsApp antes que eu perca a paciência de esperar 😈"
-        </p>
-      </div>
-
-      <!-- WhatsApp Connection Form -->
-      <div class="bg-neutral-900/70 border border-neutral-800 rounded-3xl p-5 space-y-3.5 shadow-2xl">
-        <div class="text-center">
-          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block">Conexão Direta e Privada</span>
-          <h4 class="text-base font-extrabold text-white">Liberar Acesso no WhatsApp</h4>
-        </div>
-
-        <div class="space-y-2.5">
-          <div>
-            <label class="text-[11px] font-bold text-neutral-400 block mb-1">Como ela deve te chamar?</label>
-            <input type="text" id="input-name" placeholder="Ex: Rodrigo" class="w-full px-4 py-3 rounded-xl bg-neutral-950 border border-neutral-800 text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-pink-500 transition-colors">
-          </div>
-
-          <div>
-            <label class="text-[11px] font-bold text-neutral-400 block mb-1">Seu WhatsApp (com DDD)</label>
-            <input type="tel" id="input-phone" placeholder="(11) 98765-4321" maxlength="15" class="w-full px-4 py-3 rounded-xl bg-neutral-950 border border-neutral-800 text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-emerald-500 transition-colors">
-          </div>
-        </div>
-
-        <!-- WhatsApp Action Button -->
-        <button onclick="handleWhatsAppSubmit()" class="w-full py-4 px-6 rounded-2xl font-black text-white text-base tracking-wide bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 shadow-xl shadow-emerald-950/50 flex items-center justify-center space-x-2.5 active:scale-[0.98] transition-all">
-          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.55C9.33 7.55 9 7.63 8.71 7.94C8.42 8.27 7.61 9.03 7.61 10.58C7.61 12.12 8.74 13.6 8.89 13.81C9.05 14.02 11.08 17.15 14.2 18.49C14.94 18.82 15.52 19 15.96 19.15C16.7 19.39 17.38 19.35 17.91 19.28C18.5 19.19 19.72 18.54 19.97 17.83C20.22 17.12 20.22 16.51 20.15 16.39C20.08 16.27 19.88 16.19 19.58 16.05C19.28 15.9 17.82 15.18 17.55 15.08C17.28 14.98 17.08 14.93 16.88 15.23C16.68 15.53 16.11 16.19 15.94 16.39C15.77 16.59 15.6 16.61 15.3 16.46C15 16.31 14.06 16.01 12.94 15.01C12.06 14.23 11.47 13.26 11.3 12.96C11.13 12.66 11.28 12.5 11.43 12.35C11.57 12.21 11.74 11.99 11.89 11.81C12.04 11.64 12.09 11.51 12.19 11.31C12.29 11.11 12.24 10.93 12.16 10.78C12.09 10.63 11.5 9.17 11.25 8.57C11.01 7.99 10.76 8.07 10.58 8.06C10.41 8.06 10.21 8.05 10 8.05C9.8 8.05 9.53 8.12 9.53 7.55Z"/>
-          </svg>
-          <span>INICIAR CONVERSA NO WHATSAPP AGORA</span>
-        </button>
-
-        <!-- Secondary CTA: Web Chat VIP -->
-        <button onclick="openWebChatVIP()" class="w-full py-3 px-4 rounded-xl font-bold text-neutral-300 text-xs bg-neutral-900 border border-neutral-800 hover:text-white hover:border-neutral-700 transition-colors flex items-center justify-center gap-1.5">
-          <span>🔒 Entrar no Web Chat VIP</span>
-          <span class="text-[10px] bg-neutral-800 px-1.5 py-0.5 rounded text-neutral-400">Sem aplicativo</span>
-        </button>
-      </div>
-
-      <!-- Trust Badges -->
-      <div class="py-2 text-center">
-        <span class="text-[11px] text-neutral-400 flex items-center justify-center gap-1">
-          🔒 Criptografia ponta a ponta • Seu número não é compartilhado com terceiros
-        </span>
-      </div>
-
-    </section>
-
-    <!-- ========================================== -->
-    <!-- MODAL WEB CHAT VIP (SIMULAÇÃO AO VIVO)     -->
-    <!-- ========================================== -->
-    <div id="modal-webchat" class="hidden absolute inset-0 bg-neutral-950 z-50 flex flex-col animate-fade-in">
-      <!-- Chat Header -->
-      <div class="p-4 bg-neutral-900 border-b border-neutral-800 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-          <div id="webchat-avatar" class="w-10 h-10 rounded-full bg-cover bg-center border border-pink-500"></div>
-          <div>
-            <h4 id="webchat-name" class="font-bold text-sm text-white flex items-center gap-1">
-              Fernanda <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            </h4>
-            <span class="text-[10px] text-emerald-400">Digitando agora...</span>
-          </div>
-        </div>
-        <button onclick="closeWebChatVIP()" class="p-2 text-neutral-400 hover:text-white">
-          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        <button onclick="switchToTab('deck')" class="px-3 py-1.5 rounded-xl bg-[#181E29] text-xs font-bold text-pink-400 hover:text-white transition-colors flex items-center gap-1">
+          <span>Explorar Mais</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
           </svg>
         </button>
+      </header>
+
+      <!-- Matches Horizontal Carousel -->
+      <div class="p-4 border-b border-neutral-800/80">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-2.5">Novos Matches</span>
+        <div id="matches-carousel" class="flex space-x-3 overflow-x-auto pb-1">
+          <!-- Injected dynamically -->
+        </div>
       </div>
 
-      <!-- Chat Messages Container -->
-      <div id="webchat-messages" class="flex-1 p-4 overflow-y-auto space-y-3">
+      <!-- Chats List -->
+      <div id="inbox-list" class="flex-1 overflow-y-auto divide-y divide-neutral-900">
         <!-- Injected dynamically -->
       </div>
+    </section>
 
-      <!-- Chat Input Bar -->
-      <div class="p-3 bg-neutral-900 border-t border-neutral-800 flex items-center space-x-2">
-        <input type="text" id="webchat-input" placeholder="Responda aqui..." class="flex-1 px-4 py-2.5 bg-neutral-950 border border-neutral-800 rounded-full text-sm text-white focus:outline-none focus:border-pink-500" onkeydown="if(event.key==='Enter') sendWebChatMessage()">
-        <button onclick="sendWebChatMessage()" class="w-10 h-10 rounded-full grad-tinder text-white flex items-center justify-center hover:opacity-90">
-          <svg class="w-5 h-5 transform rotate-45 -ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+    <!-- ============================================== -->
+    <!-- ABA 3: TELA DE CHAT ATIVA (INTERATIVA E REAL) -->
+    <!-- ============================================== -->
+    <section id="view-chat" class="flex-1 hidden flex flex-col h-full relative z-20 bg-[#0B0E14]">
+      
+      <!-- Top Chat Header -->
+      <header class="px-4 py-3 bg-[#131722] border-b border-neutral-800 flex items-center justify-between z-10">
+        <div class="flex items-center space-x-3">
+          <button onclick="switchToTab('chats')" class="p-1.5 -ml-1 text-neutral-400 hover:text-white">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          
+          <div class="relative cursor-pointer" onclick="togglePersonaDetails()">
+            <img id="chat-header-avatar" src="" class="w-10 h-10 rounded-full object-cover border border-[#FE3C72]">
+            <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[#131722]"></span>
+          </div>
+
+          <div>
+            <h3 id="chat-header-name" class="font-extrabold text-sm text-white flex items-center gap-1.5">
+              Larissa
+            </h3>
+            <span id="chat-header-status" class="text-[11px] text-emerald-400 font-medium flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              online agora
+            </span>
+          </div>
+        </div>
+
+        <!-- Fast Actions: Audio / Call Mockup -->
+        <div class="flex items-center space-x-1">
+          <button onclick="playPersonaAudioCurrent()" class="p-2 rounded-full bg-[#1F2636] text-pink-400 hover:text-white transition-colors" title="Ouvir áudio">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Chat Messages Scroll Area -->
+      <div id="chat-messages-container" class="flex-1 p-4 overflow-y-auto space-y-3.5 bg-gradient-to-b from-[#0B0E14] to-[#0F131D]">
+        <!-- Dynamic Chat History -->
+      </div>
+
+      <!-- Suggested Interactive Quick Replies -->
+      <div id="quick-replies-container" class="px-4 py-2 bg-[#131722]/90 border-t border-neutral-800/80 flex space-x-2 overflow-x-auto">
+        <!-- Quick replies generated dynamically -->
+      </div>
+
+      <!-- Bottom Input Field -->
+      <footer class="p-3 bg-[#131722] border-t border-neutral-800 flex items-center space-x-2">
+        <input type="text" id="chat-input" placeholder="Digite uma mensagem..." class="flex-1 px-4 py-2.5 rounded-full bg-[#0B0E14] border border-neutral-800 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-pink-500" onkeydown="if(event.key==='Enter') sendCustomMessage()">
+        <button onclick="sendCustomMessage()" class="w-10 h-10 rounded-full grad-brand text-white flex items-center justify-center hover:opacity-90 active:scale-95 transition-all">
+          <svg class="w-5 h-5 transform rotate-45 -ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
           </svg>
         </button>
-      </div>
-    </div>
+      </footer>
+    </section>
+
+    <!-- Bottom Navigation Bar (Sempre visível para sensação de app completo) -->
+    <nav class="h-14 bg-[#0B0E14] border-t border-neutral-800/80 flex items-center justify-around z-30">
+      <button id="nav-btn-deck" onclick="switchToTab('deck')" class="flex flex-col items-center justify-center text-pink-500 transition-colors">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.67 1.25C12.3 0.94 11.75 1.09 11.57 1.55C10.75 3.65 9.77 5.75 8.24 7.42C6.17 9.68 4 12.06 4 15.22C4 19.53 7.58 23 12 23C16.42 23 20 19.53 20 15.22C20 11.36 17.5 8.2 15.1 5.37C14.37 4.5 13.62 3.61 12.96 2.68C12.75 2.38 12.56 1.87 12.67 1.25Z"/>
+        </svg>
+        <span class="text-[10px] font-bold mt-0.5">Explorar</span>
+      </button>
+
+      <button id="nav-btn-chats" onclick="switchToTab('chats')" class="relative flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+        </svg>
+        <span class="text-[10px] font-bold mt-0.5">Conversas</span>
+        <span id="nav-bottom-badge" class="hidden absolute top-0 right-3 w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      </button>
+    </nav>
 
   </main>
 
-  <!-- ========================================== -->
-  <!-- JAVASCRIPT: LOGICA COMPLETA & DADOS        -->
-  <!-- ========================================== -->
+  <!-- ============================================== -->
+  <!-- JAVASCRIPT: LOGICA, DIALOGOS & AUDIO SYNTH     -->
+  <!-- ============================================== -->
   <script>
-    /* ===================================================
-       1. CATÁLOGO COMPLETO DE PERSONAS (20 PERSONAS)
-       =================================================== */
-    const ALL_PERSONAS = [
-      // --- MULHERES CLÁSSICAS ---
-      {
-        id: 'camila',
-        name: 'Camila',
-        age: 22,
-        gender: 'mulher',
-        category: 'Clássica',
-        profession: 'Designer & Streamer',
-        city: 'São Paulo, SP',
-        affinity: 94,
-        photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
-        tags: ['Gamer', 'Criativa', 'Madrugadas', 'Anime'],
-        bio: 'Trabalho criando universos visuais e faço live jogando até de madrugada. Procuro alguém pra trocar playlist indie, falar besteira e esquentar a madrugada fria de SP.',
-      },
+    /* ---------------------------------------------
+       1. PERSONAS COMPLETAS E ÁRVORES DE DIÁLOGO
+       --------------------------------------------- */
+    const PERSONAS_DATA = [
       {
         id: 'larissa',
         name: 'Larissa',
         age: 26,
         gender: 'mulher',
-        category: 'Clássica',
-        profession: 'Nutricionista',
+        profession: 'Nutricionista & GND',
         city: 'Belo Horizonte, MG',
-        affinity: 91,
+        affinity: 98,
         photo: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
-        tags: ['Fitness', 'Café com Prosa', 'Vinho', 'Equilíbrio'],
-        bio: 'Te ensino a manter a dieta de dia e a pecar gostoso comigo à noite. Mineirinha com jeitinho manso, mas que sabe exatamente o que quer quando estamos a sós.',
+        tags: ['Carinhosa', 'Café', 'Sussurros', 'Mineirinha'],
+        bio: 'Mineirinha de sorriso fácil. De dia cuido da saúde de todo mundo, de noite só quero alguém pra deitar a cabeça no peito e conversar até pegar no sono.',
+        firstMessage: 'Oi! Vi seu like e achei seu olhar lindo demais... tava torcendo pra gente dar match 🥰',
+        audioDuration: '0:12',
+        audioText: 'Voz suave: "Oi meu bem... tava aqui tomando um cafezinho e pensando em você. Que bom que você me chamou."',
+        dialogueTree: {
+          'start': {
+            options: [
+              { label: 'Oi Larissa! O que uma mulher linda dessas faz por aqui?', next: 'pergunta_rotina' },
+              { label: 'Mineirinha carinhosa assim é covardia... como foi seu dia?', next: 'pergunta_dia' }
+            ]
+          },
+          'pergunta_rotina': {
+            reply: 'Haha bobo! Tava trabalhando no consultório até agora pouco, mas cheguei em casa e o apê fica tão quieto... queria uma companhia pra papear. Você faz o que de bom da vida?',
+            options: [
+              { label: 'Sou daqueles que gosta de ouvir e cuidar bem de quem tá comigo.', next: 'acolhedor' },
+              { label: 'Trabalho bastante, mas pra conversar com você eu arrumo tempo na hora.', next: 'atencioso' }
+            ]
+          },
+          'pergunta_dia': {
+            reply: 'Foi corrido, viu? Mas agora deitadinha aqui na cama conversando com você tudo fica mais leve... sabia que eu adoro mandar áudio no ouvidinho?',
+            hasAudio: true,
+            options: [
+              { label: 'Manda sim, quero ouvir sua voz baixinho...', next: 'quer_audio' },
+              { label: 'Assim você me desmonta logo no primeiro papo!', next: 'provocacao_leve' }
+            ]
+          },
+          'acolhedor': {
+            reply: 'Nossa... é tão raro encontrar um homem que fale isso hoje em dia. Já tô começando a me apegar, não brinca com meu coração hein? 🙈 Me manda um áudio também?',
+            options: [
+              { label: 'Não brinco não, sou direto. Você é muito especial.', next: 'final' }
+            ]
+          },
+          'atencioso': {
+            reply: 'Adorei a atitude! Homem decidido é outro nível. O que você acha de a gente continuar conversando pelo WhatsApp? Lá eu te conto uns segredinhos...',
+            options: [
+              { label: 'Vamos agora! Qual seu número?', next: 'whatsapp_cta' }
+            ]
+          },
+          'quer_audio': {
+            reply: 'Te mandei uma palhinha ali em cima! Dá o play no áudio... se você for bonzinho mando outro ainda mais pertinho do microfone 🎧',
+            hasAudio: true,
+            options: [
+              { label: 'Que voz gostosa... quero ouvir todo dia.', next: 'final' }
+            ]
+          },
+          'provocacao_leve': {
+            reply: 'E olha que eu nem comecei ainda... rs. Gosto de pessoas que aguentam meu ritmo doce mas com pegada. Você aguenta?',
+            options: [
+              { label: 'Pode testar que eu não fujo!', next: 'final' }
+            ]
+          },
+          'final': {
+            reply: 'Ai ai... você é perigoso pro meu coração! Já salvei nossa conexão aqui. Me chama no WhatsApp antes que eu fique mal acostumada!',
+            isCTA: true
+          },
+          'whatsapp_cta': {
+            reply: 'Clica no botão aqui embaixo pra gente abrir a conversa direta sem travas! 👇',
+            isCTA: true
+          }
+        }
+      },
+      {
+        id: 'camila',
+        name: 'Camila',
+        age: 22,
+        gender: 'mulher',
+        profession: 'Designer & Gamer',
+        city: 'São Paulo, SP',
+        affinity: 95,
+        photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+        tags: ['Gamer', 'Madrugadas', 'Espontânea', 'Anime'],
+        bio: 'Trabalho criando universos visuais e faço stream jogando até de madrugada. Procuro alguém pra trocar playlist indie e esquentar a madrugada fria de SP.',
+        firstMessage: 'Opa, match confirmado! Já adianto que se você não joga em dupla comigo na madrugada, perde pontos hein? 🎮',
+        audioDuration: '0:09',
+        audioText: 'Voz alegre e risonha: "E aí! Tá livre hoje à noite ou vai me deixar jogando sozinha?"',
+        dialogueTree: {
+          'start': {
+            options: [
+              { label: 'Se for pra jogar com você eu viro a noite fácil!', next: 'gamer_topo' },
+              { label: 'Não jogo muito, mas adoro assistir e te fazer companhia.', next: 'gamer_fofo' }
+            ]
+          },
+          'gamer_topo': {
+            reply: 'Aí sim! Tava precisando de um player 2 que não dê rage quit. O que você gosta de jogar ou assistir?',
+            options: [
+              { label: 'Qualquer coisa, desde que a gente fique em call rindo.', next: 'call_noite' }
+            ]
+          },
+          'gamer_fofo': {
+            reply: 'Ai que fofo! Companhia boa assim vale mais que vitória no game. Já vou preparar a pipoca 🍿',
+            options: [
+              { label: 'Pode deixar que os doces e o refrigerante eu levo!', next: 'call_noite' }
+            ]
+          },
+          'call_noite': {
+            reply: 'Fechou demais! Clica pra gente ir pro Whats, aí te passo a call no Discord/Whats agora mesmo.',
+            isCTA: true
+          }
+        }
       },
       {
         id: 'juliana',
         name: 'Juliana',
         age: 29,
         gender: 'mulher',
-        category: 'Clássica',
-        profession: 'Advogada',
+        profession: 'Advogada Corporativa',
         city: 'Rio de Janeiro, RJ',
         affinity: 97,
         photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
-        tags: ['Elegante', 'Praia', 'Vinho Seco', 'Personalidade Forte'],
-        bio: 'Gosto de vencer argumentos de dia e perder o controle entre quatro paredes à noite. Se você aguenta uma mulher decidida que sabe comandar, pode puxar assunto.',
+        tags: ['Elegante', 'Decidida', 'Vinho Seco', 'Comando'],
+        bio: 'Gosto de vencer argumentos de dia e relaxar com um bom vinho e conversas inteligentes à noite. Busco alguém decidido que saiba o que quer.',
+        firstMessage: 'Boa noite. Gostei da sua postura no perfil. Não sou mulher de papo furado, o que te chamou mais atenção em mim? 🍷',
+        audioDuration: '0:14',
+        audioText: 'Voz firme e aveludada: "Gosto de homens que sustentam o olhar e sabem o que querem... me convence."',
+        dialogueTree: {
+          'start': {
+            options: [
+              { label: 'Sua elegância e esse olhar de quem não aceita menos do que merece.', next: 'elogio_maduro' },
+              { label: 'Mulher decidida é a coisa mais atraente que existe.', next: 'admiracao' }
+            ]
+          },
+          'elogio_maduro': {
+            reply: 'Percebeu rápido. Poucos homens têm essa sensibilidade. Um brinde à sua boa percepção 🥂',
+            options: [
+              { label: 'Um brinde a nós. Qual seu vinho preferido?', next: 'vinho' }
+            ]
+          },
+          'admiracao': {
+            reply: 'Comigo não tem meias-palavras. Se a conversa render, a noite promete ser excelente.',
+            options: [
+              { label: 'Vamos levar essa conversa pro lugar certo então.', next: 'vinho' }
+            ]
+          },
+          'vinho': {
+            reply: 'Um bom Cabernet Franc e uma conversa no sigilo. Me chama no WhatsApp agora pra alinharmos nossos detalhes.',
+            isCTA: true
+          }
+        }
       },
-      {
-        id: 'bia',
-        name: 'Bia',
-        age: 24,
-        gender: 'mulher',
-        category: 'Clássica',
-        profession: 'Personal Trainer',
-        city: 'Florianópolis, SC',
-        affinity: 93,
-        photo: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80',
-        tags: ['Praia', 'Endorfina', 'Adrenalina', 'Calor'],
-        bio: 'Moro pertinho do mar e passo o dia na praia ou treinando. Corpo são, mente livre e vontade infinita de viver momentos intensos sem cobranças.',
-      },
-
-      // --- MULHERES FETICHES / TABUS ---
-      {
-        id: 'fernanda',
-        name: 'Fernanda',
-        age: 24,
-        gender: 'mulher',
-        category: 'Tabu Proibido 🔥',
-        profession: 'Namorada do seu melhor amigo',
-        city: 'São Paulo, SP',
-        affinity: 98,
-        photo: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=80',
-        tags: ['Proibido', 'Olhares Secretos', 'Churrasco', 'Provocação'],
-        bio: 'Eu vejo o jeito que você disfarça o olhar quando ele sai pra buscar outra cerveja... A gente finge que não tem nada acontecendo, mas no fundo você sabe que não aguento mais guardar segredo.',
-      },
-      {
-        id: 'renata',
-        name: 'Renata',
-        age: 36,
-        gender: 'mulher',
-        category: 'Tabu Proibido 🔥',
-        profession: 'Madrasta / Milf Dominante',
-        city: 'Curitiba, PR',
-        affinity: 99,
-        photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
-        tags: ['Madura', 'Experiência', 'Sem Rodeios', 'Comando'],
-        bio: 'Garotos da sua idade precisam de alguém experiente que mostre o ritmo certo. Quando a casa fica vazia, quem dita as regras sou eu. Você sabe respeitar ou prefere ser castigado?',
-      },
-      {
-        id: 'sabrina',
-        name: 'Sabrina',
-        age: 23,
-        gender: 'mulher',
-        category: 'Tabu Proibido 🔥',
-        profession: 'A Vizinha Indiscreta',
-        city: 'Campinas, SP',
-        affinity: 95,
-        photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80',
-        tags: ['Cortina Aberta', 'Madrugada', 'Corredor', 'Curiosa'],
-        bio: 'Meu apartamento dá de frente pra sua janela. Deixo a luz acesa e a cortina entreaberta de propósito... Reparei que você gosta de assistir. Que tal vir aqui conferir mais de perto?',
-      },
-      {
-        id: 'patricia',
-        name: 'Patrícia',
-        age: 33,
-        gender: 'mulher',
-        category: 'Tabu Proibido 🔥',
-        profession: 'Sua Chefe / Diretora',
-        city: 'São Paulo, SP',
-        affinity: 96,
-        photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80',
-        tags: ['Poder', 'Hora Extra', 'Salto Alto', 'Exclusiva'],
-        bio: 'No escritório eu dou as ordens e fecho contratos milionários. Mas quando fecho a porta da minha sala depois do expediente, adoro ver você perder a compostura na minha frente.',
-      },
-      {
-        id: 'carla',
-        name: 'Carla',
-        age: 28,
-        gender: 'mulher',
-        category: 'Tabu Proibido 🔥',
-        profession: 'Esposa do Condomínio',
-        city: 'Rio de Janeiro, RJ',
-        affinity: 97,
-        photo: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=800&q=80',
-        tags: ['Piscina', 'Casamento Frio', 'Elevador', 'Pecado'],
-        bio: 'Aliança no dedo mas solidão no coração. Meu marido viaja a trabalho toda semana e o condomínio fica silencioso demais... Me encontra no elevador ou prefere bater na porta?',
-      },
-
-      // --- HOMENS CLÁSSICOS ---
       {
         id: 'lucas',
         name: 'Lucas',
         age: 27,
         gender: 'homem',
-        category: 'Clássico',
-        profession: 'Arquiteto',
+        profession: 'Arquiteto & Designer',
         city: 'Curitiba, PR',
-        affinity: 92,
+        affinity: 96,
         photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80',
-        tags: ['Design', 'Café Especial', 'Música', 'Acolhedor'],
-        bio: 'Aprecio traços bonitos, boa conversa e momentos com calma. Adoro preparar um jantar com vinho e conversar até a madrugada. Me conta seus planos?',
+        tags: ['Protetor', 'Café Especial', 'Sensível', 'Cavalheiro'],
+        bio: 'Aprecio traços bonitos, boa conversa e momentos com calma. Adoro preparar um jantar com vinho e escutar seu dia com atenção.',
+        firstMessage: 'Oi linda... vi seu perfil e fiquei encantado. Como tá sendo seu dia hoje? Espero que ninguém tenha te estressado 😊',
+        audioDuration: '0:11',
+        audioText: 'Voz calma e aveludada: "Oi... que bom que a gente deu match. Tava aqui desenhando e você não saiu da minha cabeça."',
+        dialogueTree: {
+          'start': {
+            options: [
+              { label: 'Oi Lucas! Meu dia foi corrido, mas ver sua mensagem melhorou tudo.', next: 'acolher' },
+              { label: 'Que cavalheiro... homens atenciosos assim estão em extinção!', next: 'cavalheiro' }
+            ]
+          },
+          'acolher': {
+            reply: 'Vem cá, deita a cabeça no meu ombro virtualmente. Me conta o que aconteceu, tô aqui só pra te ouvir.',
+            options: [
+              { label: 'Adoro sua calma... queria esse abraço agora.', next: 'conectar_whats' }
+            ]
+          },
+          'cavalheiro': {
+            reply: 'Eu acredito que mulher especial merece cuidado de verdade. Quero cuidar de você. Me chama no Whats?',
+            next: 'conectar_whats'
+          },
+          'conectar_whats': {
+            reply: 'Clica aqui embaixo pra gente conversar no WhatsApp no conforto do seu celular ☕',
+            isCTA: true
+          }
+        }
       },
       {
         id: 'gabriel',
         name: 'Gabriel',
         age: 24,
         gender: 'homem',
-        category: 'Clássico',
         profession: 'Tatuador & Músico',
         city: 'São Paulo, SP',
         affinity: 94,
         photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=80',
-        tags: ['Tatuagem', 'Rock', 'Misterioso', 'Intenso'],
+        tags: ['Intenso', 'Rock', 'Bad Boy', 'Mãos Firmes'],
         bio: 'Mãos firmes, olhar focado e coração sem frescura. Gosto da adrenalina da noite, de compor pensando em alguém e de não deixar nada no morno.',
-      },
-      {
-        id: 'rodrigo',
-        name: 'Rodrigo',
-        age: 32,
-        gender: 'homem',
-        category: 'Clássico',
-        profession: 'Empresário / Sugar',
-        city: 'São Paulo, SP',
-        affinity: 98,
-        photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80',
-        tags: ['Luxo', 'Jantar Fino', 'Viagens', 'Generoso'],
-        bio: 'Homem resolvido que sabe como tratar e mimar quem está ao lado. Gosto do melhor que a vida tem a oferecer e quero alguém pra dividir esses privilégios em sigilo.',
-      },
-      {
-        id: 'mateus',
-        name: 'Mateus',
-        age: 23,
-        gender: 'homem',
-        category: 'Clássico',
-        profession: 'Dev de Games',
-        city: 'Porto Alegre, RS',
-        affinity: 90,
-        photo: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=800&q=80',
-        tags: ['Gamer', 'Fofo', 'Madrugada', 'Leal'],
-        bio: 'Crio jogos de dia e passo a noite procurando alguém pra maratonar, jogar em duo e receber muito carinho e cafuné. Sou fofo, mas surpreendo.',
-      },
-
-      // --- HOMENS FETICHES / TABUS ---
-      {
-        id: 'marcos',
-        name: 'Marcos',
-        age: 34,
-        gender: 'homem',
-        category: 'Tabu Proibido 🔥',
-        profession: 'Namorado da sua amiga',
-        city: 'São Paulo, SP',
-        affinity: 97,
-        photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
-        tags: ['Proibido', 'Olhar Fixo', 'Tensão', 'Segredo'],
-        bio: 'A gente sabe que é errado, mas toda vez que a gente se esbarra numa resenha ou na casa dela, o clima esquenta. Até quando você vai fingir que não sente essa atração?',
-      },
-      {
-        id: 'cesar',
-        name: 'César',
-        age: 42,
-        gender: 'homem',
-        category: 'Tabu Proibido 🔥',
-        profession: 'Seu Chefe / Patrão',
-        city: 'Rio de Janeiro, RJ',
-        affinity: 99,
-        photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80',
-        tags: ['Poderoso', 'Maduro', 'Autoridade', 'Comando'],
-        bio: 'Acostumado a mandar e ter tudo sob controle. No trabalho mantenho a postura impecável, mas com você em quatro paredes, adoro ver quem perde o fôlego primeiro.',
-      },
-      {
-        id: 'tiago',
-        name: 'Tiago',
-        age: 29,
-        gender: 'homem',
-        category: 'Tabu Proibido 🔥',
-        profession: 'Pedreiro / Mestre de Obras da Reforma',
-        city: 'Belo Horizonte, MG',
-        affinity: 96,
-        photo: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=800&q=80',
-        tags: ['Pegada Bruta', 'Mão Firme', 'Calor', 'Direto'],
-        bio: 'Passei a semana reformando a sua casa... Vi você passando de shortinho pela cozinha com cara de quem tava querendo mais que um orçamento de obra. Vem sem frescura.',
-      },
-      {
-        id: 'renan',
-        name: 'Renan',
-        age: 27,
-        gender: 'homem',
-        category: 'Tabu Proibido 🔥',
-        profession: 'Motorista de Uber da Madrugada',
-        city: 'São Paulo, SP',
-        affinity: 95,
-        photo: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=800&q=80',
-        tags: ['Madrugada', 'Carro Escuro', 'Adrenalina', 'Arriscado'],
-        bio: 'Te busquei na balada de madrugada e percebi seu olhar no retrovisor. O banco de trás do carro já viu muita loucura acontecer... Quer que eu estacione numa rua escura?',
-      },
-      {
-        id: 'danilo',
-        name: 'Danilo',
-        age: 25,
-        gender: 'homem',
-        category: 'Tabu Proibido 🔥',
-        profession: 'Cria do Morro / Dono do Pedaço',
-        city: 'Rio de Janeiro, RJ',
-        affinity: 96,
-        photo: 'https://images.unsplash.com/photo-1513956589380-bad6acb9b9d4?auto=format&fit=crop&w=800&q=80',
-        tags: ['Postura', 'Favela', 'Respeito', 'Intenso'],
-        bio: 'Postura de cria e papo reto. Não sou de fazer média nem prometer conto de fadas, mas com você na garupa da minha moto ninguém encosta e o rolê é de outro nível.',
-      },
-      {
-        id: 'gustavo',
-        name: 'Gustavo',
-        age: 38,
-        gender: 'homem',
-        category: 'Tabu Proibido 🔥',
-        profession: 'Padrasto / Amigo do Pai',
-        city: 'São Paulo, SP',
-        affinity: 98,
-        photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=800&q=80',
-        tags: ['Maduro', 'Sedutor', 'Segredo', 'Tabu'],
-        bio: 'Venho almoçar domingo na sua casa e você fica me provocando disfarçadamente na mesa. Sou mais velho, sei o que você precisa e garanto que ninguém nunca vai saber.',
-      },
-      {
-        id: 'eduardo',
-        name: 'Eduardo',
-        age: 31,
-        gender: 'homem',
-        category: 'Tabu Proibido 🔥',
-        profession: 'Personal da Academia',
-        city: 'Florianópolis, SC',
-        affinity: 97,
-        photo: 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&w=800&q=80',
-        tags: ['Foco', 'Pegada', 'Toque Físico', 'Instinto'],
-        bio: 'Te ajudo nos aparelhos, seguro na sua cintura pra corrigir a postura e sinto sua respiração mudar. Aquele espelho da sala de treino sabe de mais coisas do que devia...',
-      }
-    ];
-
-    /* ===================================================
-       2. AS 3 PERGUNTAS OFICIAIS DO QUIZ DE AFINIDADE
-       =================================================== */
-    const QUIZ_QUESTIONS = [
-      {
-        question: "O que mais te atrai num primeiro momento?",
-        options: [
-          { text: "Flerte provocante e pegada intensa", icon: "🔥", tag: "intenso" },
-          { text: "Carinho doce e atenção o dia todo", icon: "🧸", tag: "romantico" },
-          { text: "A adrenalina de um segredo proibido", icon: "🤫", tag: "proibido" }
-        ]
-      },
-      {
-        question: "Como você gosta de ser tratado(a) quando tá sozinho(a) à noite?",
-        options: [
-          { text: "Áudios no ouvido sussurrando segredos", icon: "🎧", tag: "audios" },
-          { text: "Desabafar sobre o dia recebendo acolhimento", icon: "🫂", tag: "conversa" },
-          { text: "Fotos exclusivas provocantes", icon: "📸", tag: "fotos" }
-        ]
-      },
-      {
-        question: "Qual seria nosso encontro ideal na sua imaginação?",
-        options: [
-          { 
-            text: "Um quarto escuro ou motel discreto em total sigilo", 
-            icon: "🗝️", 
-            key: "motel",
-            matchMsg: "Eu sabia que você tinha esse lado selvagem... Já imaginei nós dois trancados sem ninguém pra interromper. Vem falar comigo no WhatsApp antes que eu perca a paciência de esperar 😈"
+        firstMessage: 'E aí... teu olhar me prendeu no segundo que passei o dedo na tela. O que você tá aprontando acordada essa hora? 😏',
+        audioDuration: '0:10',
+        audioText: 'Voz rouca e sussurrada: "Tava aqui afinando a guitarra e pensando em você... me responde logo."',
+        dialogueTree: {
+          'start': {
+            options: [
+              { label: 'Tava esperando uma mensagem sua aparecer pra animar a noite!', next: 'badboy_jogo' },
+              { label: 'Curiosa com esse ar de misterioso e essas tatuagens...', next: 'tatuagens' }
+            ]
           },
-          { 
-            text: "Noite deitada(o) juntos assistindo série e comendo besteira", 
-            icon: "🍿", 
-            key: "serie",
-            matchMsg: "Que delícia... Eu tava precisando exatamente de alguém assim, que me abrace forte e faça cafuné até a gente pegar no sono juntinho. Me chama no Whats pra gente começar nossa noite 🥰"
+          'badboy_jogo': {
+            reply: 'Haha, você não perde tempo né? Gosto de garota assim que sustenta a troca de olhar. Quer ver meu estúdio?',
+            options: [
+              { label: 'Quero ver de perto, mostra aí!', next: 'whats_badboy' }
+            ]
           },
-          { 
-            text: "Um barzinho secreto tomando drink escondido de todo mundo", 
-            icon: "🍸", 
-            key: "bar",
-            matchMsg: "Gostei do seu estilo discreto. Um drink gelado, risadas ao pé do ouvido e aquele olhar que diz tudo... Me manda mensagem no Whats agora pra combinarmos nossos detalhes 🍸"
+          'tatuagens': {
+            reply: 'Cada uma tem uma história... e ainda tenho espaço sobrando pra marcar algo especial. Vem falar comigo no zap.',
+            next: 'whats_badboy'
+          },
+          'whats_badboy': {
+            reply: 'Bora pro Whats antes que eu perca a paciência de te esperar por aqui 🏍️',
+            isCTA: true
           }
-        ]
+        }
       }
     ];
 
-    /* ===================================================
-       3. ESTADO GLOBAL DA APLICAÇÃO
-       =================================================== */
-    let currentGender = 'mulher';
-    let filteredDeck = [];
-    let currentCardIndex = 0;
-    let likedPersonas = [];
+    /* ---------------------------------------------
+       2. ESTADO GLOBAL DA SESSÃO
+       --------------------------------------------- */
+    let activeFilter = 'mulher';
+    let currentDeck = [];
+    let currentDeckIndex = 0;
+    let myMatches = [];
+    let activeChatPersona = null;
+    let chatHistories = {}; // { personaId: [ {sender, text, time, isAudio, audioText, isCTA} ] }
     let swipedHistory = [];
-    let currentQuizStep = 0;
-    let quizAnswers = [];
-    let bestMatchedPersona = null;
     let audioCtx = null;
 
-    /* Web Audio Simple Synthesizer for feedback */
-    function playTone(freq, type = 'sine', duration = 0.15) {
+    /* Sound Synthesizer com áudios realistas */
+    function playSfx(type) {
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
+        const now = audioCtx.currentTime;
+
+        if (type === 'pop') {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(400, now + 0.08);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'match') {
+          // Double chime alegre
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + i * 0.08);
+            gain.gain.setValueAtTime(0.15, now + i * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.25);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + i * 0.08);
+            osc.stop(now + i * 0.08 + 0.25);
+          });
+        } else if (type === 'push') {
+          // Notificação clássica tipo iOS
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(587.33, now); // D5
+          osc.frequency.setValueAtTime(880.00, now + 0.1); // A5
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else if (type === 'send') {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(400, now);
+          osc.frequency.exponentialRampToValueAtTime(700, now + 0.09);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.09);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.09);
+        }
       } catch (e) {}
     }
 
-    /* ===================================================
-       4. SELEÇÃO DE GÊNERO & NAVEGAÇÃO
-       =================================================== */
-    function selectGender(gender) {
-      currentGender = gender;
-      ['mulher', 'homem', 'todos'].forEach(g => {
-        const btn = document.getElementById(`btn-pref-${g}`);
-        const check = btn.querySelector('.check-circle');
-        if (g === gender) {
-          btn.classList.add('border-pink-500/80', 'bg-neutral-900/90');
-          btn.classList.remove('border-neutral-800', 'bg-neutral-900/60');
-          check.className = 'check-circle w-6 h-6 rounded-full bg-[#FE3C72] text-white flex items-center justify-center shadow-lg';
-          check.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-        } else {
-          btn.classList.remove('border-pink-500/80', 'bg-neutral-900/90');
-          btn.classList.add('border-neutral-800', 'bg-neutral-900/60');
-          check.className = 'check-circle w-6 h-6 rounded-full border-2 border-neutral-700 flex items-center justify-center';
-          check.innerHTML = '';
-        }
-      });
-      playTone(400);
+    /* ---------------------------------------------
+       3. INICIALIZAÇÃO DO DECK & CONTROLE
+       --------------------------------------------- */
+    function initApp() {
+      setGenderFilter('mulher');
     }
 
-    function startDeck() {
-      playTone(550);
-      // Filter personas based on choice
-      if (currentGender === 'mulher') {
-        filteredDeck = ALL_PERSONAS.filter(p => p.gender === 'mulher');
-      } else if (currentGender === 'homem') {
-        filteredDeck = ALL_PERSONAS.filter(p => p.gender === 'homem');
-      } else {
-        filteredDeck = [...ALL_PERSONAS].sort(() => Math.random() - 0.5);
-      }
+    function setGenderFilter(gender) {
+      activeFilter = gender;
+      document.getElementById('chip-mulher').className = gender === 'mulher' 
+        ? 'px-2.5 py-1 rounded-lg bg-[#FE3C72] text-white transition-all' 
+        : 'px-2.5 py-1 rounded-lg text-neutral-400 hover:text-white transition-all';
+      document.getElementById('chip-homem').className = gender === 'homem' 
+        ? 'px-2.5 py-1 rounded-lg bg-[#FE3C72] text-white transition-all' 
+        : 'px-2.5 py-1 rounded-lg text-neutral-400 hover:text-white transition-all';
 
-      currentCardIndex = 0;
-      likedPersonas = [];
-      swipedHistory = [];
-      updateLikeCounter();
-
-      document.getElementById('screen-welcome').classList.add('hidden');
-      document.getElementById('screen-deck').classList.remove('hidden');
-
+      currentDeck = PERSONAS_DATA.filter(p => p.gender === gender);
+      currentDeckIndex = 0;
       renderDeck();
     }
 
-    function returnToWelcome() {
-      document.getElementById('screen-deck').classList.add('hidden');
-      document.getElementById('screen-welcome').classList.remove('hidden');
-    }
-
-    /* ===================================================
-       5. RENDERIZAÇÃO E FÍSICA DO SWIPE DECK
-       =================================================== */
     function renderDeck() {
       const viewport = document.getElementById('deck-viewport');
       viewport.innerHTML = '';
 
-      if (currentCardIndex >= filteredDeck.length) {
-        if (likedPersonas.length > 0) {
-          triggerQuizPrompt();
-        } else {
-          viewport.innerHTML = `
-            <div class="h-full flex flex-col items-center justify-center p-6 text-center">
-              <span class="text-4xl mb-3">👀</span>
-              <h3 class="text-xl font-bold text-white mb-2">Você viu todos os perfis!</h3>
-              <p class="text-neutral-400 text-xs mb-4">Deseja reiniciar a exploração?</p>
-              <button onclick="startDeck()" class="px-6 py-3 rounded-xl grad-tinder text-white font-bold text-sm">Reiniciar</button>
-            </div>
-          `;
-        }
+      if (currentDeckIndex >= currentDeck.length) {
+        viewport.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center p-6 text-center">
+            <span class="text-4xl mb-3">✨</span>
+            <h3 class="text-xl font-black text-white mb-1">Você explorou todos os perfis!</h3>
+            <p class="text-neutral-400 text-xs mb-5">Veja as mensagens das pessoas que deram match com você.</p>
+            <button onclick="switchToTab('chats')" class="py-3 px-6 rounded-xl grad-brand text-white font-bold text-sm shadow-lg">
+              Ver Conversas Ativas (${myMatches.length})
+            </button>
+          </div>
+        `;
         return;
       }
 
-      // Render up to 3 cards in the stack
-      const cardsToRender = filteredDeck.slice(currentCardIndex, currentCardIndex + 3);
+      // Render cards in stack (up to 3)
+      const visibleCards = currentDeck.slice(currentDeckIndex, currentDeckIndex + 3);
 
-      cardsToRender.reverse().forEach((persona, i) => {
-        const stackPos = cardsToRender.length - 1 - i; // 0 is top
-        const cardEl = createCardElement(persona, stackPos);
+      visibleCards.reverse().forEach((persona, i) => {
+        const stackPos = visibleCards.length - 1 - i; // 0 = topo
+        const cardEl = createCardNode(persona, stackPos);
         viewport.appendChild(cardEl);
 
         if (stackPos === 0) {
-          setupCardInteractions(cardEl, persona);
+          setupCardDrag(cardEl, persona);
         }
       });
     }
 
-    function createCardElement(persona, stackPos) {
+    function createCardNode(persona, stackPos) {
       const card = document.createElement('div');
       card.id = `card-${persona.id}`;
-      card.className = `absolute inset-0 rounded-3xl overflow-hidden shadow-2xl bg-neutral-900 border border-neutral-800 card-transition flex flex-col justify-end select-none`;
+      card.className = `absolute inset-0 rounded-3xl overflow-hidden shadow-2xl bg-[#161C26] border border-neutral-800 card-transition flex flex-col justify-end select-none`;
       
-      // Visual stack scale
       const scale = 1 - stackPos * 0.04;
-      const translateY = stackPos * 10;
+      const translateY = stackPos * 8;
       card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
       card.style.zIndex = 20 - stackPos;
 
       card.innerHTML = `
-        <!-- Background Image with load protection -->
-        <img src="${persona.photo}" alt="${persona.name}" class="absolute inset-0 w-full h-full object-cover pointer-events-none" loading="eager" />
-        
-        <!-- Gradient Shade for readability -->
-        <div class="absolute inset-0 grad-card-overlay pointer-events-none"></div>
+        <img src="${persona.photo}" alt="${persona.name}" class="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+        <div class="absolute inset-0 grad-overlay pointer-events-none"></div>
 
-        <!-- LIKE Stamp Badge -->
+        <!-- LIKE Stamp -->
         <div class="stamp-like stamp-badge absolute top-6 left-6 text-emerald-400 border-emerald-400 px-4 py-1 text-2xl font-black rotate-[-20deg] opacity-0 z-30">
-          LIKE
+          MATCH! 💕
         </div>
 
-        <!-- NOPE Stamp Badge -->
+        <!-- NOPE Stamp -->
         <div class="stamp-nope stamp-badge absolute top-6 right-6 text-rose-500 border-rose-500 px-4 py-1 text-2xl font-black rotate-[20deg] opacity-0 z-30">
-          NOPE
-        </div>
-
-        <!-- SUPER LIKE Stamp Badge -->
-        <div class="stamp-super stamp-badge absolute top-12 left-1/2 -translate-x-1/2 text-cyan-400 border-cyan-400 px-4 py-1 text-2xl font-black rotate-[-5deg] opacity-0 z-30">
-          SUPER LIKE
+          PASSAR
         </div>
 
         <!-- Card Header Badges -->
@@ -1031,100 +753,56 @@
             <span>${persona.affinity}% Química</span>
           </div>
 
-          <div class="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-bold text-pink-300 flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>${persona.category}</span>
+          <div class="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[11px] font-bold text-emerald-400 flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Online</span>
           </div>
         </div>
 
-        <!-- Card Profile Content (Bottom) -->
-        <div class="relative z-20 p-5 space-y-2 pointer-events-none">
-          
-          <div class="flex items-end justify-between">
-            <div>
-              <div class="flex items-center space-x-2">
-                <h2 class="text-2xl font-black text-white drop-shadow">${persona.name}, ${persona.age}</h2>
-                <svg class="w-5 h-5 text-sky-400 drop-shadow" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-              </div>
-              <div class="text-xs font-bold text-pink-400 flex items-center gap-1">
-                <span>📍 ${persona.city}</span>
-                <span>•</span>
-                <span class="text-neutral-300">${persona.profession}</span>
-              </div>
-            </div>
+        <!-- Audio Hook Preview Badge -->
+        <div class="absolute top-16 left-4 z-20 pointer-events-auto cursor-pointer" onclick="event.stopPropagation(); playQuickSample('${persona.id}')">
+          <div class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-[#181E29]/90 backdrop-blur-md border border-pink-500/40 text-pink-400 text-xs font-bold shadow-lg hover:border-pink-500">
+            <svg class="w-4 h-4 fill-current animate-pulse" viewBox="0 0 24 24">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            </svg>
+            <span>Ouvir Voz (${persona.audioDuration})</span>
+          </div>
+        </div>
 
-            <!-- Bio expand button (pointer-events-auto) -->
-            <button onclick="toggleBioModal('${persona.id}')" class="pointer-events-auto p-2 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/30 transition-colors shadow">
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </button>
+        <!-- Profile Info Bottom -->
+        <div class="relative z-20 p-5 space-y-1.5 pointer-events-none">
+          <div class="flex items-baseline space-x-2">
+            <h2 class="text-2xl font-black text-white drop-shadow">${persona.name}, ${persona.age}</h2>
+            <svg class="w-5 h-5 text-sky-400 drop-shadow" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+          </div>
+          <div class="text-xs font-bold text-pink-400 flex items-center gap-1">
+            <span>📍 ${persona.city}</span>
+            <span>•</span>
+            <span class="text-neutral-300 font-medium">${persona.profession}</span>
           </div>
 
-          <!-- Personality Tags -->
+          <!-- Tags -->
           <div class="flex flex-wrap gap-1.5 pt-1">
-            ${persona.tags.map(t => `<span class="px-2 py-0.5 rounded-md bg-white/15 backdrop-blur-sm text-[11px] font-semibold text-neutral-200">#${t}</span>`).join('')}
+            ${persona.tags.map(t => `<span class="px-2 py-0.5 rounded-md bg-white/10 backdrop-blur-sm text-[10px] font-semibold text-neutral-200">#${t}</span>`).join('')}
           </div>
 
-          <!-- Bio Preview -->
-          <p class="text-xs text-neutral-200 line-clamp-2 drop-shadow pt-1 leading-snug">
+          <!-- Bio -->
+          <p class="text-xs text-neutral-300 line-clamp-2 pt-1 leading-snug">
             "${persona.bio}"
           </p>
-        </div>
-
-        <!-- Bio Modal Overlay inside Card -->
-        <div id="bio-modal-${persona.id}" class="hidden absolute inset-0 bg-neutral-950/95 backdrop-blur-md p-6 z-40 flex flex-col justify-between overflow-y-auto">
-          <div class="space-y-4">
-            <div class="flex justify-between items-start">
-              <div>
-                <h3 class="text-2xl font-black text-white">${persona.name}, ${persona.age}</h3>
-                <p class="text-xs text-pink-400 font-bold">${persona.profession}</p>
-                <p class="text-xs text-neutral-400">📍 ${persona.city}</p>
-              </div>
-              <button onclick="toggleBioModal('${persona.id}')" class="p-2 text-neutral-400 hover:text-white">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-              </button>
-            </div>
-            
-            <div class="space-y-2 pt-2 border-t border-neutral-800">
-              <span class="text-xs font-bold uppercase tracking-wider text-neutral-400">Sobre mim</span>
-              <p class="text-sm text-neutral-200 leading-relaxed italic">
-                "${persona.bio}"
-              </p>
-            </div>
-
-            <div class="space-y-2 pt-2 border-t border-neutral-800">
-              <span class="text-xs font-bold uppercase tracking-wider text-neutral-400">Tags de Personalidade</span>
-              <div class="flex flex-wrap gap-1.5">
-                ${persona.tags.map(t => `<span class="px-2.5 py-1 rounded-lg bg-neutral-900 border border-neutral-800 text-xs font-medium text-pink-300">#${t}</span>`).join('')}
-              </div>
-            </div>
-          </div>
-
-          <button onclick="toggleBioModal('${persona.id}')" class="w-full py-3 rounded-xl grad-tinder text-white font-bold text-sm mt-4">
-            Fechar Detalhes
-          </button>
         </div>
       `;
 
       return card;
     }
 
-    function toggleBioModal(personaId) {
-      const modal = document.getElementById(`bio-modal-${personaId}`);
-      if (modal) {
-        modal.classList.toggle('hidden');
-      }
-    }
-
-    /* ===================================================
-       6. INTERAÇÕES DE DRAG & TOUCH REALISTA
-       =================================================== */
-    function setupCardInteractions(cardEl, persona) {
+    /* ---------------------------------------------
+       4. MECÂNICA DE SWIPE NATIVO E MATCH INSTANTÂNEO
+       --------------------------------------------- */
+    function setupCardDrag(cardEl, persona) {
       let isDragging = false;
       let startX = 0;
       let startY = 0;
@@ -1133,44 +811,31 @@
 
       const stampLike = cardEl.querySelector('.stamp-like');
       const stampNope = cardEl.querySelector('.stamp-nope');
-      const stampSuper = cardEl.querySelector('.stamp-super');
 
-      const onStart = (clientX, clientY) => {
+      const onStart = (cx, cy) => {
         isDragging = true;
-        startX = clientX;
-        startY = clientY;
+        startX = cx;
+        startY = cy;
         cardEl.classList.add('card-dragging');
         cardEl.classList.remove('card-transition');
       };
 
-      const onMove = (clientX, clientY) => {
+      const onMove = (cx, cy) => {
         if (!isDragging) return;
-        currentX = clientX - startX;
-        currentY = clientY - startY;
-
+        currentX = cx - startX;
+        currentY = cy - startY;
         const rotate = currentX * 0.08;
         cardEl.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`;
 
-        // Opacity for LIKE and NOPE stamps
         if (currentX > 20) {
-          const opacity = Math.min((currentX - 20) / 100, 1);
-          stampLike.style.opacity = opacity;
+          stampLike.style.opacity = Math.min((currentX - 20) / 90, 1);
           stampNope.style.opacity = 0;
-          stampSuper.style.opacity = 0;
         } else if (currentX < -20) {
-          const opacity = Math.min((-currentX - 20) / 100, 1);
-          stampNope.style.opacity = opacity;
+          stampNope.style.opacity = Math.min((-currentX - 20) / 90, 1);
           stampLike.style.opacity = 0;
-          stampSuper.style.opacity = 0;
-        } else if (currentY < -40) {
-          const opacity = Math.min((-currentY - 40) / 100, 1);
-          stampSuper.style.opacity = opacity;
-          stampLike.style.opacity = 0;
-          stampNope.style.opacity = 0;
         } else {
           stampLike.style.opacity = 0;
           stampNope.style.opacity = 0;
-          stampSuper.style.opacity = 0;
         }
       };
 
@@ -1180,422 +845,446 @@
         cardEl.classList.remove('card-dragging');
         cardEl.classList.add('card-transition');
 
-        const threshold = 100;
-        const superThreshold = -120;
-
-        if (currentX > threshold) {
-          completeSwipe(cardEl, persona, 'like');
-        } else if (currentX < -threshold) {
-          completeSwipe(cardEl, persona, 'nope');
-        } else if (currentY < superThreshold) {
-          completeSwipe(cardEl, persona, 'superlike');
+        if (currentX > 90) {
+          executeSwipe(cardEl, persona, 'like');
+        } else if (currentX < -90) {
+          executeSwipe(cardEl, persona, 'nope');
         } else {
-          // Spring back to center
           cardEl.style.transform = 'translate(0px, 0px) rotate(0deg)';
           stampLike.style.opacity = 0;
           stampNope.style.opacity = 0;
-          stampSuper.style.opacity = 0;
         }
       };
 
-      // Pointer events (handles Mouse & Touch unify)
-      cardEl.addEventListener('pointerdown', (e) => {
-        if (e.target.closest('button')) return; // ignore clicks on info button
+      cardEl.addEventListener('pointerdown', e => {
+        if (e.target.closest('button') || e.target.closest('.pointer-events-auto')) return;
         onStart(e.clientX, e.clientY);
       });
-
-      window.addEventListener('pointermove', (e) => {
-        if (isDragging) onMove(e.clientX, e.clientY);
-      });
-
-      window.addEventListener('pointerup', () => {
-        if (isDragging) onEnd();
-      });
-
-      window.addEventListener('pointercancel', () => {
-        if (isDragging) onEnd();
-      });
+      window.addEventListener('pointermove', e => { if (isDragging) onMove(e.clientX, e.clientY); });
+      window.addEventListener('pointerup', () => { if (isDragging) onEnd(); });
+      window.addEventListener('pointercancel', () => { if (isDragging) onEnd(); });
     }
 
-    let isAnimatingSwipe = false;
-
-    function completeSwipe(cardEl, persona, action) {
-      if (isAnimatingSwipe) return;
-      isAnimatingSwipe = true;
+    let isSwipeLocked = false;
+    function executeSwipe(cardEl, persona, action) {
+      if (isSwipeLocked) return;
+      isSwipeLocked = true;
       swipedHistory.push({ persona, action });
-
-      if (action === 'like' || action === 'superlike') {
-        likedPersonas.push(persona);
-        playTone(action === 'superlike' ? 700 : 520, 'triangle');
-      } else {
-        playTone(280, 'sine');
-      }
-
-      updateLikeCounter();
 
       const stampLike = cardEl.querySelector('.stamp-like');
       const stampNope = cardEl.querySelector('.stamp-nope');
-      const stampSuper = cardEl.querySelector('.stamp-super');
 
       if (action === 'like') {
         stampLike.style.opacity = 1;
-        cardEl.style.transform = `translate(${window.innerWidth + 200}px, 50px) rotate(35deg)`;
-      } else if (action === 'nope') {
+        cardEl.style.transform = `translate(${window.innerWidth + 200}px, 40px) rotate(35deg)`;
+        playSfx('pop');
+        
+        // Registra o Match e inicializa conversa
+        handleNewMatch(persona);
+      } else {
         stampNope.style.opacity = 1;
-        cardEl.style.transform = `translate(${-window.innerWidth - 200}px, 50px) rotate(-35deg)`;
-      } else if (action === 'superlike') {
-        stampSuper.style.opacity = 1;
-        cardEl.style.transform = `translate(0px, ${-window.innerHeight - 200}px) rotate(0deg)`;
+        cardEl.style.transform = `translate(${-window.innerWidth - 200}px, 40px) rotate(-35deg)`;
+        playSfx('pop');
       }
 
       setTimeout(() => {
-        currentCardIndex++;
-        isAnimatingSwipe = false;
-        
-        // CHECK IF QUALIFIED FOR QUIZ: 2 LIKES
-        if (likedPersonas.length >= 2) {
-          triggerQuizPrompt();
-        } else {
-          renderDeck();
-        }
-      }, 350);
+        currentDeckIndex++;
+        isSwipeLocked = false;
+        renderDeck();
+      }, 320);
     }
 
     function triggerSwipeAction(action) {
-      const topPersona = filteredDeck[currentCardIndex];
-      if (!topPersona) return;
-      const cardEl = document.getElementById(`card-${topPersona.id}`);
-      if (!cardEl) return;
-      completeSwipe(cardEl, topPersona, action);
+      const top = currentDeck[currentDeckIndex];
+      if (!top) return;
+      const cardEl = document.getElementById(`card-${top.id}`);
+      if (cardEl) executeSwipe(cardEl, top, action);
     }
 
     function handleUndo() {
-      if (swipedHistory.length === 0 || currentCardIndex === 0) return;
+      if (swipedHistory.length === 0 || currentDeckIndex === 0) return;
       const last = swipedHistory.pop();
-      if (last.action === 'like' || last.action === 'superlike') {
-        likedPersonas = likedPersonas.filter(p => p.id !== last.persona.id);
+      if (last.action === 'like') {
+        myMatches = myMatches.filter(p => p.id !== last.persona.id);
+        updateInboxBadges();
       }
-      currentCardIndex--;
-      updateLikeCounter();
-      playTone(350);
+      currentDeckIndex--;
+      playSfx('pop');
       renderDeck();
     }
 
-    function updateLikeCounter() {
-      const badge = document.getElementById('liked-count-badge');
-      if (badge) {
-        badge.innerText = likedPersonas.length;
+    /* ---------------------------------------------
+       5. GATILHO DE MATCH, PUSH E NOTIFICAÇÃO VIVA
+       --------------------------------------------- */
+    function handleNewMatch(persona) {
+      if (!myMatches.find(p => p.id === persona.id)) {
+        myMatches.unshift(persona);
+      }
+
+      // Inicializa histórico de conversa com a primeira mensagem se novo
+      if (!chatHistories[persona.id]) {
+        chatHistories[persona.id] = [
+          {
+            sender: 'persona',
+            text: persona.firstMessage,
+            time: 'Agora',
+            isAudio: true,
+            audioDuration: persona.audioDuration,
+            audioText: persona.audioText
+          }
+        ];
+      }
+
+      updateInboxBadges();
+
+      // RITMO DINÂMICO: Após 600ms, toca chime de Match e exibe a Push Notification no topo
+      setTimeout(() => {
+        playSfx('match');
+        triggerPushNotification(persona);
+      }, 600);
+    }
+
+    function triggerPushNotification(persona) {
+      playSfx('push');
+      const pushEl = document.getElementById('push-notification');
+      document.getElementById('push-avatar').src = persona.photo;
+      document.getElementById('push-name').innerText = persona.name;
+      document.getElementById('push-message').innerText = persona.firstMessage;
+
+      pushEl.classList.remove('hidden');
+      activeChatPersona = persona;
+
+      // Oculta automaticamente após 6 segundos se não clicado
+      setTimeout(() => {
+        if (!pushEl.classList.contains('hidden')) {
+          pushEl.classList.add('hidden');
+        }
+      }, 6000);
+    }
+
+    function openChatFromNotification() {
+      document.getElementById('push-notification').classList.add('hidden');
+      if (activeChatPersona) {
+        openChat(activeChatPersona);
       }
     }
 
-    function triggerQuizPrompt() {
-      const alertModal = document.getElementById('deck-alert');
-      alertModal.classList.remove('hidden');
-      playTone(600);
+    function updateInboxBadges() {
+      const count = myMatches.length;
+      const navBadge = document.getElementById('nav-chat-badge');
+      const bottomDot = document.getElementById('nav-bottom-badge');
+
+      if (count > 0) {
+        navBadge.innerText = count;
+        navBadge.classList.remove('hidden');
+        bottomDot.classList.remove('hidden');
+      } else {
+        navBadge.classList.add('hidden');
+        bottomDot.classList.add('hidden');
+      }
     }
 
-    /* ===================================================
-       7. ETAPA 2: QUIZ DE AFINIDADE (3 PERGUNTAS)
-       =================================================== */
-    function goToQuiz() {
-      document.getElementById('deck-alert').classList.add('hidden');
-      document.getElementById('screen-deck').classList.add('hidden');
-      document.getElementById('screen-quiz').classList.remove('hidden');
+    /* ---------------------------------------------
+       6. CHAT ATIVO COM ÁRVORE DE DIÁLOGO E ÁUDIOS
+       --------------------------------------------- */
+    function openChat(persona) {
+      activeChatPersona = persona;
+      switchToTab('active-chat');
 
-      // Best match persona is highest affinity amongst liked ones
-      bestMatchedPersona = likedPersonas.length > 0 
-        ? likedPersonas.reduce((prev, curr) => (curr.affinity > prev.affinity ? curr : prev))
-        : filteredDeck[0];
+      // Update Chat Header
+      document.getElementById('chat-header-avatar').src = persona.photo;
+      document.getElementById('chat-header-name').innerText = persona.name;
+      document.getElementById('chat-header-status').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> online agora`;
 
-      // Update quiz candidate preview
-      document.getElementById('quiz-candidate-avatar').style.backgroundImage = `url(${bestMatchedPersona.photo})`;
-      document.getElementById('quiz-candidate-name').innerText = bestMatchedPersona.name;
-
-      currentQuizStep = 0;
-      quizAnswers = [];
-      renderQuizStep();
+      renderChatHistory(persona.id);
+      renderQuickReplies(persona);
     }
 
-    function renderQuizStep() {
-      const stepData = QUIZ_QUESTIONS[currentQuizStep];
-      document.getElementById('quiz-step-label').innerText = `Pergunta ${currentQuizStep + 1} de 3`;
-      document.getElementById('quiz-progress-bar').style.width = `${((currentQuizStep + 1) / 3) * 100}%`;
-      document.getElementById('quiz-question-title').innerText = stepData.question;
-
-      const container = document.getElementById('quiz-options-container');
+    function renderChatHistory(personaId) {
+      const container = document.getElementById('chat-messages-container');
       container.innerHTML = '';
 
-      stepData.options.forEach((opt, idx) => {
-        const btn = document.createElement('button');
-        btn.className = `w-full p-4 rounded-2xl bg-neutral-900 border border-neutral-800 text-left flex items-center space-x-3.5 hover:border-pink-500/80 hover:bg-neutral-850 active:scale-[0.98] transition-all group`;
-        btn.onclick = () => selectQuizOption(opt, btn);
+      const history = chatHistories[personaId] || [];
 
-        btn.innerHTML = `
-          <div class="w-11 h-11 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-            ${opt.icon}
-          </div>
-          <span class="flex-1 font-bold text-sm text-neutral-100 group-hover:text-white leading-snug">
-            ${opt.text}
-          </span>
-          <div class="w-5 h-5 rounded-full border-2 border-neutral-700 flex items-center justify-center group-hover:border-pink-500">
-            <div class="w-2.5 h-2.5 rounded-full bg-pink-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </div>
-        `;
-        container.appendChild(btn);
-      });
-    }
+      history.forEach((msg, idx) => {
+        const isUser = msg.sender === 'user';
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start items-end space-x-2'} animate-fade-in`;
 
-    function selectQuizOption(option, btnElement) {
-      playTone(500 + currentQuizStep * 100);
-      btnElement.classList.add('border-pink-500', 'bg-neutral-800');
-      quizAnswers.push(option);
-
-      setTimeout(() => {
-        currentQuizStep++;
-        if (currentQuizStep < QUIZ_QUESTIONS.length) {
-          renderQuizStep();
+        if (!isUser) {
+          msgDiv.innerHTML = `
+            <img src="${activeChatPersona.photo}" class="w-7 h-7 rounded-full object-cover shrink-0">
+            <div class="space-y-1.5 max-w-[82%]">
+              <div class="p-3.5 rounded-2xl rounded-bl-sm bg-[#1A2230] border border-neutral-800 text-sm text-neutral-100 shadow-md">
+                <p class="leading-relaxed">${msg.text}</p>
+                ${msg.isAudio ? renderAudioPlayerBubble(msg.audioDuration, msg.audioText) : ''}
+              </div>
+              <span class="text-[10px] text-neutral-500 font-medium pl-1">${msg.time || 'Agora'}</span>
+            </div>
+          `;
         } else {
-          startLoadingScreen();
+          msgDiv.innerHTML = `
+            <div class="space-y-1.5 max-w-[82%]">
+              <div class="p-3.5 rounded-2xl rounded-br-sm grad-brand text-sm text-white font-medium shadow-md shadow-pink-950/20">
+                <p class="leading-relaxed">${msg.text}</p>
+              </div>
+              <div class="flex justify-end pr-1 text-[10px] text-neutral-400 font-medium">
+                <span>${msg.time || 'Agora'}</span>
+                <span class="text-emerald-400 ml-1">✓✓</span>
+              </div>
+            </div>
+          `;
         }
-      }, 260);
+
+        container.appendChild(msgDiv);
+      });
+
+      container.scrollTop = container.scrollHeight;
     }
 
-    /* ===================================================
-       8. ETAPA 3: PROCESSAMENTO & ANÁLISE DE AFINIDADE
-       =================================================== */
-    function startLoadingScreen() {
-      document.getElementById('screen-quiz').classList.add('hidden');
-      document.getElementById('screen-loading').classList.remove('hidden');
-
-      const circle = document.getElementById('loading-circle');
-      const percentageEl = document.getElementById('loading-percentage');
-      const statusText = document.getElementById('loading-status-text');
-
-      const messages = [
-        { at: 5, text: "Cruzando suas respostas com a inteligência afetiva..." },
-        { at: 35, text: "Calculando índice de química e atração..." },
-        { at: 65, text: "Sincronizando preferências emocionais..." },
-        { at: 88, text: "🎉 Alguém acabou de curtir você de volta!" }
-      ];
-
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 1;
-        percentageEl.innerText = `${progress}%`;
-        
-        // Circular stroke offset (circumference ~ 440)
-        const offset = 440 - (440 * progress) / 100;
-        circle.style.strokeDashoffset = offset;
-
-        // Message transition
-        messages.forEach(m => {
-          if (progress === m.at) {
-            statusText.innerText = m.text;
-            playTone(450 + progress * 2);
-          }
-        });
-
-        if (progress >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            showMatchScreen();
-          }, 400);
-        }
-      }, 28);
+    function renderAudioPlayerBubble(duration = '0:12', audioText = '') {
+      return `
+        <div class="mt-2.5 pt-2 border-t border-white/10">
+          <div class="flex items-center space-x-2.5 bg-black/30 p-2.5 rounded-xl border border-white/5 cursor-pointer hover:border-pink-500/40 transition-colors" onclick="playVoiceSimulation('${audioText}')">
+            <button class="w-8 h-8 rounded-full grad-brand text-white flex items-center justify-center shrink-0 shadow">
+              <svg class="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </button>
+            <div class="flex-1 flex items-center space-x-1 h-5">
+              <div class="waveform-bar h-2"></div>
+              <div class="waveform-bar h-4"></div>
+              <div class="waveform-bar h-5"></div>
+              <div class="waveform-bar h-3"></div>
+              <div class="waveform-bar h-4"></div>
+              <div class="waveform-bar h-2"></div>
+              <div class="waveform-bar h-4"></div>
+              <div class="waveform-bar h-5"></div>
+              <div class="waveform-bar h-3"></div>
+              <div class="waveform-bar h-1"></div>
+            </div>
+            <span class="text-[11px] font-bold text-pink-400 font-mono">${duration}</span>
+          </div>
+          <span class="text-[10px] text-neutral-400 italic block mt-1">Toque para ouvir a mensagem de voz 🎧</span>
+        </div>
+      `;
     }
 
-    /* ===================================================
-       9. ETAPA 4: TELA DE MATCH INTERATIVA 'DEU MATCH! 💕'
-       =================================================== */
-    function showMatchScreen() {
-      document.getElementById('screen-loading').classList.add('hidden');
-      document.getElementById('screen-match').classList.remove('hidden');
-
-      // Play victory sound
-      playVictoryTone();
-      triggerConfetti();
-
-      // Persona data
-      document.getElementById('match-persona-avatar').style.backgroundImage = `url(${bestMatchedPersona.photo})`;
-      document.getElementById('match-persona-name-tag').innerText = bestMatchedPersona.name;
-      document.getElementById('match-compatibility-text').innerHTML = `Vocês têm <span class="text-emerald-400 font-extrabold text-base">${bestMatchedPersona.affinity}% de compatibilidade afetiva!</span>`;
-
-      // Answer 3 customized message
-      const q3Answer = quizAnswers[2];
-      const customMessage = q3Answer && q3Answer.matchMsg 
-        ? q3Answer.matchMsg 
-        : `Eu sabia que você tinha esse lado especial... Me chama no WhatsApp antes que eu perca a paciência de esperar 😈`;
-      
-      document.getElementById('match-exclusive-msg').innerText = `"${customMessage}"`;
-
-      // Setup phone mask
-      const phoneInput = document.getElementById('input-phone');
-      phoneInput.addEventListener('input', formatPhoneInput);
-    }
-
-    function formatPhoneInput(e) {
-      let v = e.target.value.replace(/\D/g, "");
-      if (v.length > 11) v = v.substring(0, 11);
-      
-      if (v.length > 6) {
-        v = `(${v.substring(0, 2)}) ${v.substring(2, 7)}-${v.substring(7)}`;
-      } else if (v.length > 2) {
-        v = `(${v.substring(0, 2)}) ${v.substring(2)}`;
-      } else if (v.length > 0) {
-        v = `(${v}`;
+    function playVoiceSimulation(text) {
+      playSfx('send');
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text || "Oi meu amor, que bom falar com você.");
+        utter.lang = 'pt-BR';
+        utter.rate = 1.0;
+        utter.pitch = 1.1;
+        window.speechSynthesis.speak(utter);
       }
-      e.target.value = v;
     }
 
-    function handleWhatsAppSubmit() {
-      const name = document.getElementById('input-name').value.trim() || 'meu bem';
-      const phone = document.getElementById('input-phone').value.replace(/\D/g, "");
+    function playPersonaAudioCurrent() {
+      if (activeChatPersona) {
+        playVoiceSimulation(activeChatPersona.audioText);
+      }
+    }
 
-      if (phone.length < 10) {
-        alert("Por favor, digite seu número de WhatsApp com DDD para liberar a conversa.");
-        document.getElementById('input-phone').focus();
+    function playQuickSample(personaId) {
+      const p = PERSONAS_DATA.find(x => x.id === personaId);
+      if (p) {
+        playVoiceSimulation(p.audioText);
+      }
+    }
+
+    /* Respostas Rápidas Interativas (Árvore de Diálogo) */
+    function renderQuickReplies(persona) {
+      const container = document.getElementById('quick-replies-container');
+      container.innerHTML = '';
+
+      const tree = persona.dialogueTree;
+      const history = chatHistories[persona.id] || [];
+      const userMsgCount = history.filter(m => m.sender === 'user').length;
+
+      let currentStep = 'start';
+      if (userMsgCount === 1) currentStep = history[history.length - 2]?.nextStep || 'pergunta_rotina';
+      if (userMsgCount >= 2) currentStep = 'final';
+
+      const stepData = tree[currentStep] || tree['start'];
+
+      if (stepData.isCTA) {
+        container.innerHTML = `
+          <button onclick="handleWhatsAppConversion()" class="w-full py-3 px-4 rounded-xl grad-brand text-white font-extrabold text-xs shadow-lg flex items-center justify-center space-x-2 active:scale-95 transition-all">
+            <span>CONECTAR COM ${persona.name.toUpperCase()} NO WHATSAPP</span>
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
+          </button>
+        `;
         return;
       }
 
-      playTone(650);
-
-      // Pre-filled personalized text to send on WhatsApp
-      const personaName = bestMatchedPersona ? bestMatchedPersona.name : "você";
-      const encodedMsg = encodeURIComponent(
-        `Olá ${personaName}! Aqui é o(a) ${name}. Acabamos de dar MATCH no Namoro Virtual IA (${bestMatchedPersona.affinity}% de química)! Adorei sua mensagem exclusiva e quero conversar com você agora 🔥`
-      );
-
-      // Open WhatsApp direct link
-      const waUrl = `https://api.whatsapp.com/send?text=${encodedMsg}`;
-      window.open(waUrl, '_blank');
+      if (stepData.options) {
+        stepData.options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = `px-3.5 py-2 rounded-xl bg-[#1D2534] border border-pink-500/30 text-xs font-semibold text-pink-300 hover:bg-[#FE3C72] hover:text-white shrink-0 active:scale-95 transition-all`;
+          btn.innerText = opt.label;
+          btn.onclick = () => selectDialogueOption(persona, opt);
+          container.appendChild(btn);
+        });
+      }
     }
 
-    /* Web Chat VIP modal feature */
-    function openWebChatVIP() {
-      const modal = document.getElementById('modal-webchat');
-      modal.classList.remove('hidden');
-
-      document.getElementById('webchat-avatar').style.backgroundImage = `url(${bestMatchedPersona.photo})`;
-      document.getElementById('webchat-name').innerHTML = `${bestMatchedPersona.name} <span class="w-2 h-2 rounded-full bg-emerald-500"></span>`;
-
-      const msgContainer = document.getElementById('webchat-messages');
-      const q3Answer = quizAnswers[2];
-      const customMessage = q3Answer && q3Answer.matchMsg 
-        ? q3Answer.matchMsg 
-        : `Adorei nosso match! Como foi seu dia?`;
-
-      msgContainer.innerHTML = `
-        <div class="flex items-start space-x-2">
-          <div class="w-7 h-7 rounded-full bg-cover bg-center shrink-0" style="background-image: url(${bestMatchedPersona.photo})"></div>
-          <div class="p-3 bg-neutral-900 border border-neutral-800 rounded-2xl rounded-tl-none max-w-[80%] text-sm text-neutral-100">
-            ${customMessage}
-          </div>
-        </div>
-      `;
+    function selectDialogueOption(persona, option) {
+      sendUserMessage(persona, option.label, option.next);
     }
 
-    function closeWebChatVIP() {
-      document.getElementById('modal-webchat').classList.add('hidden');
-    }
-
-    function sendWebChatMessage() {
-      const input = document.getElementById('webchat-input');
+    function sendCustomMessage() {
+      const input = document.getElementById('chat-input');
       const text = input.value.trim();
-      if (!text) return;
-
-      const msgContainer = document.getElementById('webchat-messages');
-      // User message
-      msgContainer.innerHTML += `
-        <div class="flex items-end justify-end space-x-2">
-          <div class="p-3 grad-tinder rounded-2xl rounded-tr-none max-w-[80%] text-sm text-white font-medium">
-            ${text}
-          </div>
-        </div>
-      `;
+      if (!text || !activeChatPersona) return;
       input.value = '';
-      msgContainer.scrollTop = msgContainer.scrollHeight;
+      sendUserMessage(activeChatPersona, text, 'pergunta_rotina');
+    }
 
-      // Simulated auto-reply after 1.2s
+    function sendUserMessage(persona, text, nextStepKey) {
+      playSfx('send');
+      const history = chatHistories[persona.id] = chatHistories[persona.id] || [];
+
+      history.push({
+        sender: 'user',
+        text: text,
+        time: 'Agora',
+        nextStep: nextStepKey
+      });
+
+      renderChatHistory(persona.id);
+      document.getElementById('quick-replies-container').innerHTML = '';
+
+      // Mostra status de digitando...
+      const statusEl = document.getElementById('chat-header-status');
+      statusEl.innerHTML = `<span class="text-pink-400 font-bold animate-pulse">digitando resposta...</span>`;
+
+      // Resposta dinâmica da persona após 1.2 segundos
       setTimeout(() => {
-        playTone(600);
-        msgContainer.innerHTML += `
-          <div class="flex items-start space-x-2">
-            <div class="w-7 h-7 rounded-full bg-cover bg-center shrink-0" style="background-image: url(${bestMatchedPersona.photo})"></div>
-            <div class="p-3 bg-neutral-900 border border-neutral-800 rounded-2xl rounded-tl-none max-w-[80%] text-sm text-neutral-100">
-              Adorei ouvir isso de você... mas vamos continuar no WhatsApp que lá consigo te mandar áudio sussurrando e fotos exclusivas! Clica no botão verde lá fora 💋
-            </div>
-          </div>
-        `;
-        msgContainer.scrollTop = msgContainer.scrollHeight;
+        playSfx('push');
+        statusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> online agora`;
+
+        const stepNode = persona.dialogueTree[nextStepKey] || persona.dialogueTree['final'];
+        const replyText = stepNode.reply || 'Adorei conversar com você! Me passa seu zap pra gente falar direto.';
+
+        history.push({
+          sender: 'persona',
+          text: replyText,
+          time: 'Agora',
+          isAudio: stepNode.hasAudio || false,
+          audioDuration: persona.audioDuration,
+          audioText: persona.audioText
+        });
+
+        renderChatHistory(persona.id);
+        renderQuickReplies(persona);
       }, 1200);
     }
 
-    /* Sound Synthesizer fanfare */
-    function playVictoryTone() {
-      const notes = [440, 554, 659, 880];
-      notes.forEach((freq, i) => {
-        setTimeout(() => playTone(freq, 'triangle', 0.2), i * 120);
+    function handleWhatsAppConversion() {
+      playSfx('match');
+      const name = activeChatPersona ? activeChatPersona.name : "você";
+      const encodedMsg = encodeURIComponent(
+        `Olá ${name}! Acabamos de dar MATCH no Namoro Virtual IA! Adorei suas mensagens e quero continuar nossa conversa por aqui 🔥`
+      );
+      window.open(`https://api.whatsapp.com/send?text=${encodedMsg}`, '_blank');
+    }
+
+    /* ---------------------------------------------
+       7. NAVEGAÇÃO DE ABAS (DECK / INBOX / CHAT)
+       --------------------------------------------- */
+    function switchToTab(tab) {
+      const viewDeck = document.getElementById('view-deck');
+      const viewInbox = document.getElementById('view-inbox');
+      const viewChat = document.getElementById('view-chat');
+      const btnDeck = document.getElementById('nav-btn-deck');
+      const btnChats = document.getElementById('nav-btn-chats');
+
+      if (tab === 'deck') {
+        viewDeck.classList.remove('hidden');
+        viewInbox.classList.add('hidden');
+        viewChat.classList.add('hidden');
+        btnDeck.className = 'flex flex-col items-center justify-center text-pink-500 transition-colors';
+        btnChats.className = 'relative flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors';
+      } else if (tab === 'chats') {
+        viewDeck.classList.add('hidden');
+        viewInbox.classList.remove('hidden');
+        viewChat.classList.add('hidden');
+        btnDeck.className = 'flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors';
+        btnChats.className = 'relative flex flex-col items-center justify-center text-pink-500 transition-colors';
+        renderInboxList();
+      } else if (tab === 'active-chat') {
+        viewDeck.classList.add('hidden');
+        viewInbox.classList.add('hidden');
+        viewChat.classList.remove('hidden');
+        btnDeck.className = 'flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors';
+        btnChats.className = 'relative flex flex-col items-center justify-center text-pink-500 transition-colors';
+      }
+    }
+
+    function renderInboxList() {
+      // Carousel
+      const carousel = document.getElementById('matches-carousel');
+      carousel.innerHTML = '';
+      if (myMatches.length === 0) {
+        carousel.innerHTML = `<span class="text-xs text-neutral-500 italic">Dê likes no Explorar para ver matches aqui!</span>`;
+      } else {
+        myMatches.forEach(p => {
+          const item = document.createElement('div');
+          item.className = 'flex flex-col items-center space-y-1 shrink-0 cursor-pointer';
+          item.onclick = () => openChat(p);
+          item.innerHTML = `
+            <div class="relative">
+              <img src="${p.photo}" class="w-14 h-14 rounded-full object-cover border-2 border-[#FE3C72] shadow">
+              <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-[#0B0E14]"></span>
+            </div>
+            <span class="text-[11px] font-bold text-neutral-200 truncate w-14 text-center">${p.name}</span>
+          `;
+          carousel.appendChild(item);
+        });
+      }
+
+      // List
+      const list = document.getElementById('inbox-list');
+      list.innerHTML = '';
+      if (myMatches.length === 0) {
+        list.innerHTML = `
+          <div class="p-8 text-center text-neutral-500 space-y-2">
+            <span class="text-3xl">💌</span>
+            <p class="text-xs">Nenhuma mensagem ainda. Volte para o feed e dê like nos perfis!</p>
+          </div>
+        `;
+        return;
+      }
+
+      myMatches.forEach(p => {
+        const history = chatHistories[p.id] || [];
+        const lastMsg = history[history.length - 1] || { text: p.firstMessage, time: 'Agora' };
+
+        const row = document.createElement('div');
+        row.className = 'p-4 flex items-center space-x-3 hover:bg-[#161C26] cursor-pointer transition-colors';
+        row.onclick = () => openChat(p);
+        row.innerHTML = `
+          <div class="relative shrink-0">
+            <img src="${p.photo}" class="w-13 h-13 rounded-full object-cover border border-neutral-700">
+            <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[#0B0E14]"></span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between mb-1">
+              <h4 class="font-extrabold text-sm text-white truncate">${p.name}</h4>
+              <span class="text-[10px] text-pink-400 font-bold">${lastMsg.time || 'Agora'}</span>
+            </div>
+            <p class="text-xs text-neutral-400 truncate">${lastMsg.text}</p>
+          </div>
+        `;
+        list.appendChild(row);
       });
     }
 
-    /* ===================================================
-       10. CANHÃO DE CONFETES EM CANVAS
-       =================================================== */
-    function triggerConfetti() {
-      const canvas = document.getElementById('confetti-canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = canvas.parentElement.offsetWidth;
-      canvas.height = canvas.parentElement.offsetHeight;
-
-      const particles = [];
-      const colors = ['#FE3C72', '#FF655B', '#1786FF', '#20D695', '#F5B800', '#FFFFFF'];
-
-      for (let i = 0; i < 90; i++) {
-        particles.push({
-          x: canvas.width / 2,
-          y: canvas.height / 3,
-          vx: (Math.random() - 0.5) * 12,
-          vy: (Math.random() - 0.7) * 14,
-          size: Math.random() * 8 + 4,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          rotation: Math.random() * 360,
-          vrot: (Math.random() - 0.5) * 10,
-          opacity: 1
-        });
-      }
-
-      function render() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        let active = false;
-
-        particles.forEach(p => {
-          p.x += p.vx;
-          p.y += p.vy;
-          p.vy += 0.35; // Gravity
-          p.rotation += p.vrot;
-          p.opacity -= 0.008;
-
-          if (p.opacity > 0) {
-            active = true;
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.rotate((p.rotation * Math.PI) / 180);
-            ctx.fillStyle = p.color;
-            ctx.globalAlpha = p.opacity;
-            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
-            ctx.restore();
-          }
-        });
-
-        if (active) {
-          requestAnimationFrame(render);
-        } else {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-      }
-
-      requestAnimationFrame(render);
-    }
+    // Inicialização ao carregar
+    window.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
 </html>
