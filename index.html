@@ -370,75 +370,93 @@
     /* ---------------------------------------------
        1. PERSONAS COMPLETAS E ÁRVORES DE DIÁLOGO
        --------------------------------------------- */
-    const PERSONAS_DATA = [
+        const PERSONAS_DATA = [
       {
         id: 'larissa',
         name: 'Larissa',
         age: 26,
         gender: 'mulher',
-        profession: 'Nutricionista & GND',
+        profession: 'Amiga de Infância / Ex',
         city: 'Belo Horizonte, MG',
         affinity: 98,
         photo: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
-        tags: ['Carinhosa', 'Café', 'Sussurros', 'Mineirinha'],
-        bio: 'Mineirinha de sorriso fácil. De dia cuido da saúde de todo mundo, de noite só quero alguém pra deitar a cabeça no peito e conversar até pegar no sono.',
-        firstMessage: 'Oi! Vi seu like e achei seu olhar lindo demais... tava torcendo pra gente dar match 🥰',
-        audioDuration: '0:12',
-        audioFile: 'larissa_1.mp3',
-        audioText: 'Oi meu bem... tava aqui tomando um cafezinho e pensando em você. Que bom que você me chamou.',
+        tags: ['Saudade', 'Carinhosa', 'Sussurros', 'Mineirinha'],
+        bio: 'Mineirinha de sorriso doce. Vi sua mãe hoje na feira e ela me passou seu zap novo. Quanto tempo, que saudade de você...',
+        firstMessage: 'Nossa... você trocou de número? Custei a te encontrar! Vi sua mãe hoje e ela me passou seu zap novo. Quanto tempo, que saudade de você...',
         dialogueTree: {
           'start': {
             options: [
-              { label: 'Oi Larissa! O que uma mulher linda dessas faz por aqui?', next: 'pergunta_rotina' },
-              { label: 'Mineirinha carinhosa assim é covardia... como foi seu dia?', next: 'pergunta_dia' }
+              { label: 'Larissa? Caramba, quanto tempo mesmo! Como você tá?', next: 'saudade' },
+              { label: 'Quem é? Acho que você mandou pro número errado...', next: 'duvida' }
             ]
           },
-          'pergunta_rotina': {
-            reply: 'Haha bobo! Tava trabalhando no consultório até agora pouco, mas cheguei em casa e o apê fica tão quieto... queria uma companhia pra papear. Você faz o que de bom da vida?',
-            options: [
-              { label: 'Sou daqueles que gosta de ouvir e cuidar bem de quem tá comigo.', next: 'acolhedor' },
-              { label: 'Trabalho bastante, mas pra conversar com você eu arrumo tempo na hora.', next: 'atencioso' }
-            ]
-          },
-          'pergunta_dia': {
-            reply: 'Foi corrido, viu? Mas agora deitadinha aqui na cama conversando com você tudo fica mais leve... sabia que eu adoro mandar áudio no ouvidinho?',
+          'saudade': {
+            reply: 'Tava morrendo de saudade do seu abraço... soube que você tá solteiro. A gente precisa se ver com urgência, meu amor!',
             hasAudio: true,
+            audioFile: 'larissa_audio_1.mp3',
+            audioDuration: '0:11',
+            audioText: 'Menino, você não tem noção de como meu coração disparou quando a sua mãe me deu seu número! Que saudade de você...',
             options: [
-              { label: 'Manda sim, quero ouvir sua voz baixinho...', next: 'quer_audio' },
-              { label: 'Assim você me desmonta logo no primeiro papo!', next: 'provocacao_leve' }
+              { label: 'Também tava com saudade! O que você tá aprontando hoje?', next: 'final' }
             ]
           },
-          'acolhedor': {
-            reply: 'Nossa... é tão raro encontrar um homem que fale isso hoje em dia. Já tô começando a me apegar, não brinca com meu coração hein? 🙈 Me manda um áudio também?',
-            options: [
-              { label: 'Não brinco não, sou direto. Você é muito especial.', next: 'final' }
-            ]
-          },
-          'atencioso': {
-            reply: 'Adorei a atitude! Homem decidido é outro nível. O que você acha de a gente continuar conversando pelo WhatsApp? Lá eu te conto uns segredinhos...',
-            options: [
-              { label: 'Vamos agora! Qual seu número?', next: 'whatsapp_cta' }
-            ]
-          },
-          'quer_audio': {
-            reply: 'Te mandei uma palhinha ali em cima! Dá o play no áudio... se você for bonzinho mando outro ainda mais pertinho do microfone 🎧',
+          'duvida': {
+            reply: 'Como assim mandou errado? É a Lari! Não vai me dizer que esqueceu da gente? Manda uma foto sua agora pra eu ter certeza que é você!',
             hasAudio: true,
+            audioFile: 'larissa_audio_1.mp3',
+            audioDuration: '0:11',
+            audioText: 'Menino, você não tem noção de como meu coração disparou quando a sua mãe me deu seu número! Que saudade de você...',
             options: [
-              { label: 'Que voz gostosa... quero ouvir todo dia.', next: 'final' }
-            ]
-          },
-          'provocacao_leve': {
-            reply: 'E olha que eu nem comecei ainda... rs. Gosto de pessoas que aguentam meu ritmo doce mas com pegada. Você aguenta?',
-            options: [
-              { label: 'Pode testar que eu não fujo!', next: 'final' }
+              { label: 'Ah, agora reconheci! Desculpa o susto rs.', next: 'final' }
             ]
           },
           'final': {
-            reply: 'Ai ai... você é perigoso pro meu coração! Já salvei nossa conexão aqui. Me chama no WhatsApp antes que eu fique mal acostumada!',
+            reply: 'Ai que delícia poder falar com você de novo! Me chama no WhatsApp oficial pra gente marcar nosso encontro sem pressa 💕',
             isCTA: true
+          }
+        }
+      },
+      {
+        id: 'fernanda',
+        name: 'Fernanda',
+        age: 24,
+        gender: 'mulher',
+        profession: 'Namorada do seu melhor amigo',
+        city: 'São Paulo, SP',
+        affinity: 97,
+        photo: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=80',
+        tags: ['Segredo', 'Desabafo', 'Confidencial', 'Madrugada'],
+        bio: 'Por favor, não fala pro Lucas que eu tô te mandando mensagem... a gente brigou feio de novo. Eu só confio em você.',
+        firstMessage: 'Por favor, não fala pro Lucas que eu tô te mandando mensagem... a gente brigou feio de novo e ele saiu batendo a porta. Eu não tenho ninguém pra desabafar, só confio em você.',
+        dialogueTree: {
+          'start': {
+            options: [
+              { label: 'Fernanda, o que houve? Vocês brigaram por quê?', next: 'desabafo' },
+              { label: 'Fê, melhor falar com uma amiga sua, vai pegar mal...', next: 'afeto' }
+            ]
           },
-          'whatsapp_cta': {
-            reply: 'Clica no botão aqui embaixo pra gente abrir a conversa direta sem travas! 👇',
+          'desabafo': {
+            reply: 'Ele é frio comigo, não me valoriza... queria tanto que ele me tratasse com o carinho que você trata as mulheres. Tô chorando aqui sozinha no sofá...',
+            hasAudio: true,
+            audioFile: 'fernanda_audio_1.mp3',
+            audioDuration: '0:10',
+            audioText: 'Tô me sentindo tão sozinha nesse apartamento... se você puder me dar uma atenção hoje, me responde aqui por favor.',
+            options: [
+              { label: 'Fica calma, você é incrível. Eu tô aqui pra te apoiar.', next: 'final' }
+            ]
+          },
+          'afeto': {
+            reply: 'Eu não quero amiga, eu queria o seu abraço agora... Você sempre foi tão protetor comigo. Posso desabafar com você?',
+            hasAudio: true,
+            audioFile: 'fernanda_audio_1.mp3',
+            audioDuration: '0:10',
+            audioText: 'Tô me sentindo tão sozinha nesse apartamento... se você puder me dar uma atenção hoje, me responde aqui por favor.',
+            options: [
+              { label: 'Claro que pode. Me conta tudo que eu te escuto.', next: 'final' }
+            ]
+          },
+          'final': {
+            reply: 'Obrigada por ser assim comigo... Vamos conversar no WhatsApp no sigilo antes que alguém chegue 🔒',
             isCTA: true
           }
         }
@@ -448,153 +466,222 @@
         name: 'Camila',
         age: 22,
         gender: 'mulher',
-        profession: 'Designer & Gamer',
+        profession: 'Designer & Streamer',
         city: 'São Paulo, SP',
         affinity: 95,
         photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
         tags: ['Gamer', 'Madrugadas', 'Espontânea', 'Anime'],
-        bio: 'Trabalho criando universos visuais e faço stream jogando até de madrugada. Procuro alguém pra trocar playlist indie e esquentar a madrugada fria de SP.',
+        bio: 'Trabalho criando universos visuais e faço live jogando. Se você não joga em duo na madrugada, perde pontos!',
         firstMessage: 'Opa, match confirmado! Já adianto que se você não joga em dupla comigo na madrugada, perde pontos hein? 🎮',
-        audioDuration: '0:09',
-        audioFile: 'camila_1.mp3',
-        audioText: 'E aí! Tá livre hoje à noite ou vai me deixar jogando sozinha?',
         dialogueTree: {
           'start': {
             options: [
-              { label: 'Se for pra jogar com você eu viro a noite fácil!', next: 'gamer_topo' },
-              { label: 'Não jogo muito, mas adoro assistir e te fazer companhia.', next: 'gamer_fofo' }
+              { label: 'Se for pra jogar com você eu viro a noite fácil!', next: 'duo' },
+              { label: 'Não jogo muito, mas adoro te assistir e papear.', next: 'companhia' }
             ]
           },
-          'gamer_topo': {
-            reply: 'Aí sim! Tava precisando de um player 2 que não dê rage quit. O que você gosta de jogar ou assistir?',
+          'duo': {
+            reply: 'Aí sim! Tava precisando de um player 2 que não dê rage quit. Bora abrir uma call?',
+            hasAudio: true,
+            audioFile: 'camila_1.mp3',
+            audioDuration: '0:09',
+            audioText: 'E aí! Tá livre hoje à noite ou vai me deixar jogando sozinha?',
             options: [
-              { label: 'Qualquer coisa, desde que a gente fique em call rindo.', next: 'call_noite' }
+              { label: 'Bora! Qual seu contato pra gente combinar?', next: 'final' }
             ]
           },
-          'gamer_fofo': {
+          'companhia': {
             reply: 'Ai que fofo! Companhia boa assim vale mais que vitória no game. Já vou preparar a pipoca 🍿',
+            hasAudio: true,
+            audioFile: 'camila_1.mp3',
+            audioDuration: '0:09',
+            audioText: 'E aí! Tá livre hoje à noite ou vai me deixar jogando sozinha?',
             options: [
-              { label: 'Pode deixar que os doces e o refrigerante eu levo!', next: 'call_noite' }
+              { label: 'Pode deixar que os doces eu levo!', next: 'final' }
             ]
           },
-          'call_noite': {
-            reply: 'Fechou demais! Clica pra gente ir pro Whats, aí te passo a call no Discord/Whats agora mesmo.',
+          'final': {
+            reply: 'Fechou demais! Clica pra gente ir pro Whats, aí te passo tudo por lá 🎮',
             isCTA: true
           }
         }
       },
       {
-        id: 'juliana',
-        name: 'Juliana',
-        age: 29,
-        gender: 'mulher',
-        profession: 'Advogada Corporativa',
-        city: 'Rio de Janeiro, RJ',
-        affinity: 97,
-        photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
-        tags: ['Elegante', 'Decidida', 'Vinho Seco', 'Comando'],
-        bio: 'Gosto de vencer argumentos de dia e relaxar com um bom vinho e conversas inteligentes à noite. Busco alguém decidido que saiba o que quer.',
-        firstMessage: 'Boa noite. Gostei da sua postura no perfil. Não sou mulher de papo furado, o que te chamou mais atenção em mim? 🍷',
-        audioDuration: '0:14',
-        audioFile: 'juliana_1.mp3',
-        audioText: 'Boa noite. Gosto de homens que sustentam o olhar e sabem o que querem... me convence.',
+        id: 'marcos',
+        name: 'Marcos',
+        age: 34,
+        gender: 'homem',
+        profession: 'Namorado da sua amiga',
+        city: 'São Paulo, SP',
+        affinity: 98,
+        photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
+        tags: ['Proibido', 'Olhar Fixo', 'Tensão', 'Segredo'],
+        bio: 'Apaga essa mensagem depois de ler, por favor... A Ju acabou de dormir aqui no quarto, mas é em você que eu não consigo parar de pensar.',
+        firstMessage: 'Apaga essa mensagem depois de ler, por favor... A Ju acabou de dormir aqui no quarto, mas é em você que eu não consigo parar de pensar desde o churrasco de domingo.',
         dialogueTree: {
           'start': {
             options: [
-              { label: 'Sua elegância e esse olhar de quem não aceita menos do que merece.', next: 'elogio_maduro' },
-              { label: 'Mulher decidida é a coisa mais atraente que existe.', next: 'admiracao' }
+              { label: 'Marcos, você tá louco?? Ela é minha melhor amiga!', next: 'tensa' },
+              { label: 'O que você tá querendo com isso, Marcos?', next: 'direto' }
             ]
           },
-          'elogio_maduro': {
-            reply: 'Percebeu rápido. Poucos homens têm essa sensibilidade. Um brinde à sua boa percepção 🥂',
+          'tensa': {
+            reply: 'Eu sei que é loucura... tentei disfarçar o quanto pude, mas aquele seu olhar na cozinha acabou comigo. Eu precisava te falar isso.',
+            hasAudio: true,
+            audioFile: 'marcos_audio_1.mp3',
+            audioDuration: '0:09',
+            audioText: 'Eu tô no quarto de hóspedes falando baixinho. A Ju acabou de dormir. Me responde antes que alguém veja.',
             options: [
-              { label: 'Um brinde a nós. Qual seu vinho preferido?', next: 'vinho' }
+              { label: 'Marcos... a gente não pode, mas você me deixa sem ar.', next: 'final' }
             ]
           },
-          'admiracao': {
-            reply: 'Comigo não tem meias-palavras. Se a conversa render, a noite promete ser excelente.',
+          'direto': {
+            reply: 'Queria que fosse você aqui deitada do meu lado agora. Se você tiver um pingo de curiosidade... me responde no particular.',
+            hasAudio: true,
+            audioFile: 'marcos_audio_1.mp3',
+            audioDuration: '0:09',
+            audioText: 'Eu tô no quarto de hóspedes falando baixinho. A Ju acabou de dormir. Me responde antes que alguém veja.',
             options: [
-              { label: 'Vamos levar essa conversa pro lugar certo então.', next: 'vinho' }
+              { label: 'Você é muito ousado... vamos conversar com calma.', next: 'final' }
             ]
           },
-          'vinho': {
-            reply: 'Um bom Cabernet Franc e uma conversa no sigilo. Me chama no WhatsApp agora pra alinharmos nossos detalhes.',
+          'final': {
+            reply: 'Salva meu contato e vem pro WhatsApp no sigilo total 🔒',
             isCTA: true
           }
         }
       },
       {
-        id: 'lucas',
-        name: 'Lucas',
+        id: 'cesar',
+        name: 'César',
+        age: 42,
+        gender: 'homem',
+        profession: 'Seu Patrão / Chefe',
+        city: 'Rio de Janeiro, RJ',
+        affinity: 99,
+        photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80',
+        tags: ['Poderoso', 'Maduro', 'Autoridade', 'Comando'],
+        bio: 'Boa noite. Sei que não é horário de trabalho e você deve estranhar eu mandando mensagem... mas não consigo me concentrar depois que você saiu da minha sala hoje.',
+        firstMessage: 'Boa noite. Sei que não é horário de trabalho e você deve estranhar eu mandando mensagem no seu particular... mas não consigo me concentrar depois que você saiu da minha sala hoje.',
+        dialogueTree: {
+          'start': {
+            options: [
+              { label: 'Doutor César? Aconteceu alguma urgência na empresa?', next: 'empresa' },
+              { label: 'Nossa, achei que o senhor fosse super sério...', next: 'serio' }
+            ]
+          },
+          'empresa': {
+            reply: 'Esquece a empresa por um minuto. Não me chame de doutor aqui. Eu quero saber até quando você vai fingir que não percebe o jeito que eu te olho.',
+            hasAudio: true,
+            audioFile: 'cesar_audio_1.mp3',
+            audioDuration: '0:08',
+            audioText: 'Seja discreta. Ninguém no escritório pode imaginar. Vamos conversar de verdade.',
+            options: [
+              { label: 'O senhor me desconcertou agora...', next: 'final' }
+            ]
+          },
+          'serio': {
+            reply: 'Sou sério com negócios. Com o que eu desejo, sou direto. Quero te fazer uma proposta que não tem nada a ver com trabalho.',
+            hasAudio: true,
+            audioFile: 'cesar_audio_1.mp3',
+            audioDuration: '0:08',
+            audioText: 'Seja discreta. Ninguém no escritório pode imaginar. Vamos conversar de verdade.',
+            options: [
+              { label: 'Estou curiosa para ouvir essa proposta.', next: 'final' }
+            ]
+          },
+          'final': {
+            reply: 'Seja discreta. Clica aqui embaixo e vamos continuar em privado 💼',
+            isCTA: true
+          }
+        }
+      },
+      {
+        id: 'tiago',
+        name: 'Tiago',
+        age: 29,
+        gender: 'homem',
+        profession: 'Pedreiro / Mestre de Obras da Reforma',
+        city: 'Belo Horizonte, MG',
+        affinity: 96,
+        photo: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=800&q=80',
+        tags: ['Pegada Bruta', 'Mão Firme', 'Direto', 'Rústico'],
+        bio: 'Ô moça, desculpa o incômodo no seu zap... peguei teu número na nota de serviço da reforma da sua casa. Mas precisava te mandar mensagem...',
+        firstMessage: 'Ô moça, desculpa o incômodo no seu zap... peguei teu número na nota de serviço da reforma aqui da sua casa. Mas precisava te mandar mensagem...',
+        dialogueTree: {
+          'start': {
+            options: [
+              { label: 'Aconteceu algum problema na reforma da casa?', next: 'reforma' },
+              { label: 'Eita, que pedreiro atrevido kkkkk', next: 'atrevido' }
+            ]
+          },
+          'reforma': {
+            reply: 'Na reforma tá tudo certo. O problema sou eu que senti teu cheiro quando você passou de shortinho na sala e quase martelo meu dedo. Você me desconcentrou todinho.',
+            hasAudio: true,
+            audioFile: 'tiago_audio_1.mp3',
+            audioDuration: '0:10',
+            audioText: 'Tô saindo da obra agora suado, doido pra tomar um banho e mandar um áudio de verdade pra você. Me dá uma moral aí!',
+            options: [
+              { label: 'Você não existe Tiago kkk me fez rir agora.', next: 'final' }
+            ]
+          },
+          'atrevido': {
+            reply: 'Sou trabalhador, mas não sou cego né? Você é bonita demais. Amanhã cedo tô aí de novo, mas queria papear com você hoje à noite...',
+            hasAudio: true,
+            audioFile: 'tiago_audio_1.mp3',
+            audioDuration: '0:10',
+            audioText: 'Tô saindo da obra agora suado, doido pra tomar um banho e mandar um áudio de verdade pra você. Me dá uma moral aí!',
+            options: [
+              { label: 'Trabalhador focado assim merece uma conversa.', next: 'final' }
+            ]
+          },
+          'final': {
+            reply: 'Aí sim! Clica aí embaixo pra gente falar no zap sem pressa 🔨',
+            isCTA: true
+          }
+        }
+      },
+      {
+        id: 'renan',
+        name: 'Renan',
         age: 27,
         gender: 'homem',
-        profession: 'Arquiteto & Designer',
-        city: 'Curitiba, PR',
-        affinity: 96,
-        photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80',
-        tags: ['Protetor', 'Café Especial', 'Sensível', 'Cavalheiro'],
-        bio: 'Aprecio traços bonitos, boa conversa e momentos com calma. Adoro preparar um jantar com vinho e escutar seu dia com atenção.',
-        firstMessage: 'Oi linda... vi seu perfil e fiquei encantado. Como tá sendo seu dia hoje? Espero que ninguém tenha te estressado 😊',
-        audioDuration: '0:11',
-        audioFile: 'lucas_1.mp3',
-        audioText: 'Oi linda... que bom que a gente deu match. Tava aqui desenhando e você não saiu da minha cabeça.',
-        dialogueTree: {
-          'start': {
-            options: [
-              { label: 'Oi Lucas! Meu dia foi corrido, mas ver sua mensagem melhorou tudo.', next: 'acolher' },
-              { label: 'Que cavalheiro... homens atenciosos assim estão em extinção!', next: 'cavalheiro' }
-            ]
-          },
-          'acolher': {
-            reply: 'Vem cá, deita a cabeça no meu ombro virtualmente. Me conta o que aconteceu, tô aqui só pra te ouvir.',
-            options: [
-              { label: 'Adoro sua calma... queria esse abraço agora.', next: 'conectar_whats' }
-            ]
-          },
-          'cavalheiro': {
-            reply: 'Eu acredito que mulher especial merece cuidado de verdade. Quero cuidar de você. Me chama no Whats?',
-            next: 'conectar_whats'
-          },
-          'conectar_whats': {
-            reply: 'Clica aqui embaixo pra gente conversar no WhatsApp no conforto do seu celular ☕',
-            isCTA: true
-          }
-        }
-      },
-      {
-        id: 'gabriel',
-        name: 'Gabriel',
-        age: 24,
-        gender: 'homem',
-        profession: 'Tatuador & Músico',
+        profession: 'Motorista de Uber da Madrugada',
         city: 'São Paulo, SP',
-        affinity: 94,
-        photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=80',
-        tags: ['Intenso', 'Rock', 'Bad Boy', 'Mãos Firmes'],
-        bio: 'Mãos firmes, olhar focado e coração sem frescura. Gosto da adrenalina da noite, de compor pensando em alguém e de não deixar nada no morno.',
-        firstMessage: 'E aí... teu olhar me prendeu no segundo que passei o dedo na tela. O que você tá aprontando acordada essa hora? 😏',
-        audioDuration: '0:10',
-        audioFile: 'gabriel_1.mp3',
-        audioText: 'E aí... tava aqui afinando a guitarra e pensando em você. Me responde logo.',
+        affinity: 95,
+        photo: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=800&q=80',
+        tags: ['Madrugada', 'Carro Escuro', 'Adrenalina', 'Espontâneo'],
+        bio: 'Ei! Você esqueceu um brinco / chave no banco de trás do meu carro agora pouco... Mentira, é desculpa pra falar com você. Não tirei seu sorriso do retrovisor.',
+        firstMessage: 'Ei! Você esqueceu um brinco no banco de trás do meu carro agora pouco... Mentira, é desculpa pra falar com você. Não tirei seu sorriso do retrovisor o caminho inteiro.',
         dialogueTree: {
           'start': {
             options: [
-              { label: 'Tava esperando uma mensagem sua aparecer pra animar a noite!', next: 'badboy_jogo' },
-              { label: 'Curiosa com esse ar de misterioso e essas tatuagens...', next: 'tatuagens' }
+              { label: 'Nossa, que susto achei que tinha perdido mesmo kkk', next: 'susto' },
+              { label: 'Você faz isso com todas as passageiras, é?', next: 'todas' }
             ]
           },
-          'badboy_jogo': {
-            reply: 'Haha, você não perde tempo né? Gosto de garota assim que sustenta a troca de olhar. Quer ver meu estúdio?',
+          'susto': {
+            reply: 'Kkkk desculpa o golpe! Mas se eu não mandasse mensagem na hora ia passar a noite me arrependendo de não ter pedido seu número pessoalmente.',
+            hasAudio: true,
+            audioFile: 'renan_audio_1.mp3',
+            audioDuration: '0:09',
+            audioText: 'Acabei de desligar o app da Uber por hoje só pra poder ficar papeando com você sem pressa. Me responde no privado vai!',
             options: [
-              { label: 'Quero ver de perto, mostra aí!', next: 'whats_badboy' }
+              { label: 'Foi esperto! Cheguei bem em casa sim.', next: 'final' }
             ]
           },
-          'tatuagens': {
-            reply: 'Cada uma tem uma história... e ainda tenho espaço sobrando pra marcar algo especial. Vem falar comigo no zap.',
-            next: 'whats_badboy'
+          'todas': {
+            reply: 'Deus me livre, rodo a noite toda e nunca fiz isso. Mas você tem uma energia diferente, me hipnotizou total. Já chegou bem em casa?',
+            hasAudio: true,
+            audioFile: 'renan_audio_1.mp3',
+            audioDuration: '0:09',
+            audioText: 'Acabei de desligar o app da Uber por hoje só pra poder ficar papeando com você sem pressa. Me responde no privado vai!',
+            options: [
+              { label: 'Cheguei sim! Adorei a corrida e a atitude.', next: 'final' }
+            ]
           },
-          'whats_badboy': {
-            reply: 'Bora pro Whats antes que eu perca a paciência de te esperar por aqui 🏍️',
+          'final': {
+            reply: 'Que bom! Clica no link e me chama no WhatsApp pra gente conversar com calma 🚗',
             isCTA: true
           }
         }
@@ -927,17 +1014,14 @@
         myMatches.unshift(persona);
       }
 
-      // Inicializa histórico de conversa com a primeira mensagem se novo
+      // Inicializa histórico de conversa com a notificação/mensagem inicial (sem áudio de cara)
       if (!chatHistories[persona.id]) {
         chatHistories[persona.id] = [
           {
             sender: 'persona',
             text: persona.firstMessage,
             time: 'Agora',
-            isAudio: true,
-            audioDuration: persona.audioDuration,
-            audioFile: persona.audioFile,
-            audioText: persona.audioText
+            isAudio: false
           }
         ];
       }
@@ -945,10 +1029,12 @@
       updateInboxBadges();
 
       // RITMO DINÂMICO: Após 600ms, toca chime de Match e exibe a Push Notification no topo
+      // Delay realista simulando a pessoa vendo seu like e respondendo
+      const matchDelay = Math.floor(Math.random() * 800) + 1800;
       setTimeout(() => {
         playSfx('match');
         triggerPushNotification(persona);
-      }, 600);
+      }, matchDelay);
     }
 
     function triggerPushNotification(persona) {
