@@ -991,6 +991,16 @@ const PERSONAS_DATA = [
   }
 ];
 
+
+// Garantir compatibilidade total de firstMessage
+if (typeof PERSONAS_DATA !== 'undefined') {
+  PERSONAS_DATA.forEach(p => {
+    if (!p.firstMessage && p.dialogue && p.dialogue.msg1_persona) {
+      p.firstMessage = p.dialogue.msg1_persona;
+    }
+  });
+}
+
 if (typeof module !== 'undefined') {
   module.exports = PERSONAS_DATA;
 }

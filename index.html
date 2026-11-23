@@ -783,7 +783,7 @@
         chatHistories[persona.id] = [
           {
             sender: 'persona',
-            text: persona.firstMessage,
+            text: (persona.firstMessage || (persona.dialogue && persona.dialogue.msg1_persona) || persona.bio),
             time: 'Agora',
             isAudio: false
           }
@@ -806,7 +806,7 @@
       const pushEl = document.getElementById('push-notification');
       document.getElementById('push-avatar').src = persona.photo;
       document.getElementById('push-name').innerText = persona.name;
-      document.getElementById('push-message').innerText = persona.firstMessage;
+      document.getElementById('push-message').innerText = (persona.firstMessage || (persona.dialogue && persona.dialogue.msg1_persona) || persona.bio);
 
       pushEl.classList.remove('hidden');
       activeChatPersona = persona;
@@ -1207,7 +1207,7 @@
 
       myMatches.forEach(p => {
         const history = chatHistories[p.id] || [];
-        const lastMsg = history[history.length - 1] || { text: p.firstMessage, time: 'Agora' };
+        const lastMsg = history[history.length - 1] || { text: (p.firstMessage || (p.dialogue && p.dialogue.msg1_persona) || p.bio), time: 'Agora' };
 
         const row = document.createElement('div');
         row.className = 'p-4 flex items-center space-x-3 hover:bg-[#161C26] cursor-pointer transition-colors';
