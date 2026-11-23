@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Namoro Virtual IA | Conexões Reais</title>
+  <script src="audio_data.js"></script>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -383,7 +384,8 @@
         bio: 'Mineirinha de sorriso fácil. De dia cuido da saúde de todo mundo, de noite só quero alguém pra deitar a cabeça no peito e conversar até pegar no sono.',
         firstMessage: 'Oi! Vi seu like e achei seu olhar lindo demais... tava torcendo pra gente dar match 🥰',
         audioDuration: '0:12',
-        audioText: 'Voz suave: "Oi meu bem... tava aqui tomando um cafezinho e pensando em você. Que bom que você me chamou."',
+        audioFile: 'larissa_1.mp3',
+        audioText: 'Oi meu bem... tava aqui tomando um cafezinho e pensando em você. Que bom que você me chamou.',
         dialogueTree: {
           'start': {
             options: [
@@ -454,7 +456,8 @@
         bio: 'Trabalho criando universos visuais e faço stream jogando até de madrugada. Procuro alguém pra trocar playlist indie e esquentar a madrugada fria de SP.',
         firstMessage: 'Opa, match confirmado! Já adianto que se você não joga em dupla comigo na madrugada, perde pontos hein? 🎮',
         audioDuration: '0:09',
-        audioText: 'Voz alegre e risonha: "E aí! Tá livre hoje à noite ou vai me deixar jogando sozinha?"',
+        audioFile: 'camila_1.mp3',
+        audioText: 'E aí! Tá livre hoje à noite ou vai me deixar jogando sozinha?',
         dialogueTree: {
           'start': {
             options: [
@@ -493,7 +496,8 @@
         bio: 'Gosto de vencer argumentos de dia e relaxar com um bom vinho e conversas inteligentes à noite. Busco alguém decidido que saiba o que quer.',
         firstMessage: 'Boa noite. Gostei da sua postura no perfil. Não sou mulher de papo furado, o que te chamou mais atenção em mim? 🍷',
         audioDuration: '0:14',
-        audioText: 'Voz firme e aveludada: "Gosto de homens que sustentam o olhar e sabem o que querem... me convence."',
+        audioFile: 'juliana_1.mp3',
+        audioText: 'Boa noite. Gosto de homens que sustentam o olhar e sabem o que querem... me convence.',
         dialogueTree: {
           'start': {
             options: [
@@ -532,7 +536,8 @@
         bio: 'Aprecio traços bonitos, boa conversa e momentos com calma. Adoro preparar um jantar com vinho e escutar seu dia com atenção.',
         firstMessage: 'Oi linda... vi seu perfil e fiquei encantado. Como tá sendo seu dia hoje? Espero que ninguém tenha te estressado 😊',
         audioDuration: '0:11',
-        audioText: 'Voz calma e aveludada: "Oi... que bom que a gente deu match. Tava aqui desenhando e você não saiu da minha cabeça."',
+        audioFile: 'lucas_1.mp3',
+        audioText: 'Oi linda... que bom que a gente deu match. Tava aqui desenhando e você não saiu da minha cabeça.',
         dialogueTree: {
           'start': {
             options: [
@@ -569,7 +574,8 @@
         bio: 'Mãos firmes, olhar focado e coração sem frescura. Gosto da adrenalina da noite, de compor pensando em alguém e de não deixar nada no morno.',
         firstMessage: 'E aí... teu olhar me prendeu no segundo que passei o dedo na tela. O que você tá aprontando acordada essa hora? 😏',
         audioDuration: '0:10',
-        audioText: 'Voz rouca e sussurrada: "Tava aqui afinando a guitarra e pensando em você... me responde logo."',
+        audioFile: 'gabriel_1.mp3',
+        audioText: 'E aí... tava aqui afinando a guitarra e pensando em você. Me responde logo.',
         dialogueTree: {
           'start': {
             options: [
@@ -930,6 +936,7 @@
             time: 'Agora',
             isAudio: true,
             audioDuration: persona.audioDuration,
+            audioFile: persona.audioFile,
             audioText: persona.audioText
           }
         ];
@@ -1017,7 +1024,7 @@
             <div class="space-y-1.5 max-w-[82%]">
               <div class="p-3.5 rounded-2xl rounded-bl-sm bg-[#1A2230] border border-neutral-800 text-sm text-neutral-100 shadow-md">
                 <p class="leading-relaxed">${msg.text}</p>
-                ${msg.isAudio ? renderAudioPlayerBubble(msg.audioDuration, msg.audioText) : ''}
+                ${msg.isAudio ? renderAudioPlayerBubble(msg.audioDuration, msg.audioFile, msg.audioText) : ''}
               </div>
               <span class="text-[10px] text-neutral-500 font-medium pl-1">${msg.time || 'Agora'}</span>
             </div>
@@ -1042,12 +1049,17 @@
       container.scrollTop = container.scrollHeight;
     }
 
-    function renderAudioPlayerBubble(duration = '0:12', audioText = '') {
+    let currentPlayingAudio = null;
+    let currentPlayingButton = null;
+
+    function renderAudioPlayerBubble(duration = '0:12', audioFile = '', audioText = '') {
+      const safeFile = audioFile || (activeChatPersona ? activeChatPersona.audioFile : '');
+      const btnId = 'btn-audio-' + Math.random().toString(36).substr(2, 9);
       return `
         <div class="mt-2.5 pt-2 border-t border-white/10">
-          <div class="flex items-center space-x-2.5 bg-black/30 p-2.5 rounded-xl border border-white/5 cursor-pointer hover:border-pink-500/40 transition-colors" onclick="playVoiceSimulation('${audioText}')">
-            <button class="w-8 h-8 rounded-full grad-brand text-white flex items-center justify-center shrink-0 shadow">
-              <svg class="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24">
+          <div class="flex items-center space-x-2.5 bg-black/40 p-2.5 rounded-xl border border-white/5 cursor-pointer hover:border-pink-500/40 transition-colors" onclick="playPersonaAudioFile('${safeFile}', '${btnId}', '${encodeURIComponent(audioText)}')">
+            <button id="${btnId}" class="w-8 h-8 rounded-full grad-brand text-white flex items-center justify-center shrink-0 shadow">
+              <svg class="w-4 h-4 fill-current ml-0.5 icon-play" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z"/>
               </svg>
             </button>
@@ -1065,33 +1077,80 @@
             </div>
             <span class="text-[11px] font-bold text-pink-400 font-mono">${duration}</span>
           </div>
-          <span class="text-[10px] text-neutral-400 italic block mt-1">Toque para ouvir a mensagem de voz 🎧</span>
+          <span class="text-[10px] text-neutral-400 italic block mt-1">Toque para ouvir a voz real 🎧</span>
         </div>
       `;
     }
 
-    function playVoiceSimulation(text) {
+    function playPersonaAudioFile(audioFile, btnId, encodedText) {
       playSfx('send');
+
+      if (currentPlayingAudio) {
+        currentPlayingAudio.pause();
+        currentPlayingAudio = null;
+        if (currentPlayingButton) {
+          currentPlayingButton.innerHTML = '<svg class="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+        }
+      }
+
+      const btn = btnId ? document.getElementById(btnId) : null;
+      let audioSrc = null;
+
+      if (typeof AUDIO_ASSETS !== 'undefined' && AUDIO_ASSETS[audioFile]) {
+        audioSrc = AUDIO_ASSETS[audioFile];
+      } else if (audioFile) {
+        audioSrc = 'audio/' + audioFile;
+      }
+
+      if (audioSrc) {
+        const audio = new Audio(audioSrc);
+        currentPlayingAudio = audio;
+        currentPlayingButton = btn;
+
+        if (btn) {
+          btn.innerHTML = '<svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+        }
+
+        audio.play().catch(err => {
+          console.warn('Erro ao tocar áudio MP3, fallback síntese:', err);
+          fallbackVoiceSynth(decodeURIComponent(encodedText || ''));
+        });
+
+        audio.onended = () => {
+          if (btn) {
+            btn.innerHTML = '<svg class="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+          }
+          currentPlayingAudio = null;
+        };
+      } else {
+        fallbackVoiceSynth(decodeURIComponent(encodedText || ''));
+      }
+    }
+
+    function fallbackVoiceSynth(text) {
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(text || "Oi meu amor, que bom falar com você.");
         utter.lang = 'pt-BR';
+        const voices = window.speechSynthesis.getVoices();
+        const ptVoice = voices.find(v => v.lang.includes('pt') && (v.name.includes('Luciana') || v.name.includes('Maria') || v.name.includes('Yara') || v.name.includes('Francisca')));
+        if (ptVoice) utter.voice = ptVoice;
         utter.rate = 1.0;
-        utter.pitch = 1.1;
+        utter.pitch = 1.15;
         window.speechSynthesis.speak(utter);
       }
     }
 
     function playPersonaAudioCurrent() {
       if (activeChatPersona) {
-        playVoiceSimulation(activeChatPersona.audioText);
+        playPersonaAudioFile(activeChatPersona.audioFile, null, encodeURIComponent(activeChatPersona.audioText));
       }
     }
 
     function playQuickSample(personaId) {
       const p = PERSONAS_DATA.find(x => x.id === personaId);
       if (p) {
-        playVoiceSimulation(p.audioText);
+        playPersonaAudioFile(p.audioFile, null, encodeURIComponent(p.audioText));
       }
     }
 
