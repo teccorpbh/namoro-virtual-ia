@@ -127,6 +127,28 @@
       pointer-events: none;
       transition: opacity 0.1s linear;
     }
+  
+    /* Garante avatares perfeitos sem estourar dimensões */
+    .avatar-inbox {
+      width: 48px !important;
+      height: 48px !important;
+      min-width: 48px !important;
+      min-height: 48px !important;
+      max-width: 48px !important;
+      max-height: 48px !important;
+      border-radius: 9999px !important;
+      object-fit: cover !important;
+    }
+    .avatar-carousel {
+      width: 56px !important;
+      height: 56px !important;
+      min-width: 56px !important;
+      min-height: 56px !important;
+      max-width: 56px !important;
+      max-height: 56px !important;
+      border-radius: 9999px !important;
+      object-fit: cover !important;
+    }
   </style>
 </head>
 <body class="bg-neutral-950 text-white min-h-screen flex justify-center items-center md:p-4 select-none">
@@ -1183,7 +1205,7 @@
           item.onclick = () => openChat(p);
           item.innerHTML = `
             <div class="relative">
-              <img src="${p.photo}" class="w-14 h-14 rounded-full object-cover border-2 border-[#FE3C72] shadow">
+              <img src="${p.photo}" class="avatar-carousel border-2 border-[#FE3C72] shadow">
               <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-[#0B0E14]"></span>
             </div>
             <span class="text-[11px] font-bold text-neutral-200 truncate w-14 text-center">${p.name}</span>
@@ -1214,7 +1236,7 @@
         row.onclick = () => openChat(p);
         row.innerHTML = `
           <div class="relative shrink-0">
-            <img src="${p.photo}" class="w-13 h-13 rounded-full object-cover border border-neutral-700">
+            <img src="${p.photo}" class="avatar-inbox border border-neutral-700">
             <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[#0B0E14]"></span>
           </div>
           <div class="flex-1 min-w-0">
