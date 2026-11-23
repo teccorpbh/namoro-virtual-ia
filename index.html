@@ -361,6 +361,86 @@
       </button>
     </nav>
 
+  
+    <!-- ============================================== -->
+    <!-- MODAL DE CADASTRO VIP (CTA APÓS 6 MENSAGENS)   -->
+    <!-- ============================================== -->
+    <div id="modal-signup" class="hidden absolute inset-0 z-50 bg-[#0B0E14]/95 backdrop-blur-xl flex flex-col justify-between p-6 overflow-y-auto animate-fade-in">
+      <div class="text-right">
+        <button onclick="closeSignupModal()" class="p-2 text-neutral-400 hover:text-white">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="max-w-xs mx-auto text-center space-y-3">
+        <div class="relative inline-block">
+          <img id="signup-avatar" src="" class="w-20 h-20 rounded-full object-cover border-4 border-[#FE3C72] shadow-2xl mx-auto shadow-pink-600/40">
+          <span class="absolute bottom-0 right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-[#0B0E14]"></span>
+        </div>
+
+        <div class="space-y-1">
+          <span class="inline-flex items-center space-x-1.5 px-3 py-0.5 rounded-full bg-pink-500/20 text-pink-400 text-[11px] font-bold">
+            <span>✨ Conexão Privada Desbloqueada</span>
+          </span>
+          <h2 class="text-2xl font-black text-white">Criar Perfil VIP</h2>
+          <p id="signup-subtitle" class="text-xs text-neutral-300">
+            Preencha seus dados para continuar conversando com <span id="signup-persona-name" class="text-pink-400 font-bold">Larissa</span> sem limite de mensagens.
+          </p>
+        </div>
+
+        <!-- Formulário de Cadastro -->
+        <form id="signup-form" onsubmit="handleSignupSubmit(event)" class="space-y-3 text-left pt-2">
+          <div>
+            <label class="text-[11px] font-bold text-neutral-300 block mb-1">Como ela deve te chamar?</label>
+            <input type="text" id="reg-name" required placeholder="Seu nome ou apelido" class="w-full px-4 py-3 rounded-xl bg-[#151922] border border-neutral-800 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-pink-500 transition-colors">
+          </div>
+
+          <div>
+            <label class="text-[11px] font-bold text-neutral-300 block mb-1">Seu WhatsApp (para notificações de saudade)</label>
+            <input type="tel" id="reg-phone" required placeholder="(11) 98765-4321" maxlength="15" class="w-full px-4 py-3 rounded-xl bg-[#151922] border border-neutral-800 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+          </div>
+
+          <div>
+            <label class="text-[11px] font-bold text-neutral-300 block mb-1">Seu melhor E-mail (acesso à conta)</label>
+            <input type="email" id="reg-email" required placeholder="seuemail@exemplo.com" class="w-full px-4 py-3 rounded-xl bg-[#151922] border border-neutral-800 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-pink-500 transition-colors">
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" class="w-full py-4 px-6 rounded-2xl font-extrabold text-white text-base tracking-wide grad-brand shadow-xl shadow-pink-600/40 hover:opacity-95 active:scale-95 transition-all flex items-center justify-center space-x-2">
+              <span>LIBERAR ACESSO VIP ILIMITADO</span>
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <div class="flex items-center justify-center space-x-3 text-[10px] text-neutral-400 pt-1">
+          <span>🔒 100% Confidencial</span>
+          <span>•</span>
+          <span>⚡ Acesso Instantâneo</span>
+          <span>•</span>
+          <span>Sem taxas surpresa</span>
+        </div>
+      </div>
+
+      <!-- Toast Sucesso pós cadastro -->
+      <div id="signup-success" class="hidden text-center p-6 bg-emerald-950/80 border border-emerald-500/50 rounded-2xl my-auto space-y-3">
+        <span class="text-4xl">🎉</span>
+        <h3 class="text-xl font-black text-white">Perfil Criado com Sucesso!</h3>
+        <p class="text-xs text-neutral-200">
+          Você já está conectado com <span id="success-persona-name" class="font-bold text-emerald-400">Larissa</span>. Sua conta VIP está ativada.
+        </p>
+        <button onclick="finishSignupAndContinue()" class="py-3 px-6 rounded-xl bg-emerald-500 text-neutral-950 font-black text-sm">
+          VOLTAR AO CHAT VIP
+        </button>
+      </div>
+
+      <div class="h-4"></div>
+    </div>
+
   </main>
 
   <!-- ============================================== -->
@@ -394,42 +474,46 @@
                 "options": [
                     {
                         "label": "Larissa? Caramba, quanto tempo mesmo! Como você tá?",
-                        "next": "saudade"
+                        "next": "step_2"
                     },
                     {
                         "label": "Quem é? Acho que você mandou pro número errado...",
-                        "next": "duvida"
+                        "next": "step_2"
                     }
                 ]
             },
-            "saudade": {
+            "step_2": {
                 "reply": "Tava morrendo de saudade do seu abraço... soube que você tá solteiro. A gente precisa se ver com urgência, meu amor!",
                 "hasAudio": true,
                 "audioFile": "larissa_audio_1.mp3",
-                "audioDuration": "0:11",
+                "audioDuration": "0:10",
                 "audioText": "Menino, você não tem noção de como meu coração disparou quando a sua mãe me deu seu número! Que saudade de você...",
                 "options": [
                     {
-                        "label": "Também tava com saudade! O que você tá aprontando hoje?",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "duvida": {
-                "reply": "Como assim mandou errado? É a Lari! Não vai me dizer que esqueceu da gente? Manda uma foto sua agora pra eu ter certeza que é você!",
-                "hasAudio": true,
-                "audioFile": "larissa_audio_1.mp3",
-                "audioDuration": "0:11",
-                "audioText": "Menino, você não tem noção de como meu coração disparou quando a sua mãe me deu seu número! Que saudade de você...",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
                 "options": [
                     {
-                        "label": "Ah, agora reconheci! Desculpa o susto rs.",
-                        "next": "final"
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
                     }
                 ]
             },
-            "final": {
-                "reply": "Ai que delícia poder falar com você de novo! Me chama no WhatsApp oficial pra gente marcar nosso encontro sem pressa 💕",
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -457,42 +541,46 @@
                 "options": [
                     {
                         "label": "Se for pra jogar com você eu viro a noite fácil!",
-                        "next": "duo"
+                        "next": "step_2"
                     },
                     {
                         "label": "Não jogo muito, mas adoro te assistir e papear.",
-                        "next": "companhia"
+                        "next": "step_2"
                     }
                 ]
             },
-            "duo": {
+            "step_2": {
                 "reply": "Aí sim! Tava precisando de um player 2 que não dê rage quit. Bora abrir uma call?",
                 "hasAudio": true,
                 "audioFile": "camila_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "E aí! Tá livre hoje à noite ou vai me deixar jogando sozinha?",
                 "options": [
                     {
-                        "label": "Bora! Qual seu contato pra gente combinar?",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "companhia": {
-                "reply": "Ai que fofo! Companhia boa assim vale mais que vitória no game. Já vou preparar a pipoca 🍿",
-                "hasAudio": true,
-                "audioFile": "camila_1.mp3",
-                "audioDuration": "0:09",
-                "audioText": "E aí! Tá livre hoje à noite ou vai me deixar jogando sozinha?",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
                 "options": [
                     {
-                        "label": "Pode deixar que os doces eu levo!",
-                        "next": "final"
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
                     }
                 ]
             },
-            "final": {
-                "reply": "Fechou demais! Clica pra gente ir pro Whats, aí te passo tudo por lá 🎮",
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -520,29 +608,46 @@
                 "options": [
                     {
                         "label": "Sua elegância e esse olhar de mulher decidida.",
-                        "next": "elegancia"
+                        "next": "step_2"
                     },
                     {
                         "label": "Essa postura de quem sabe exatamente o que quer.",
-                        "next": "elegancia"
+                        "next": "step_2"
                     }
                 ]
             },
-            "elegancia": {
+            "step_2": {
                 "reply": "Percebeu rápido. No tribunal e nos negócios eu comando, mas na vida privada adoro quem sabe me surpreender.",
                 "hasAudio": true,
                 "audioFile": "juliana_obsidian_1.mp3",
-                "audioDuration": "0:12",
+                "audioDuration": "0:10",
                 "audioText": "No escritório eu dou as ordens e fecho contratos. Mas com você a sós, adoro ver você perder a compostura na minha frente. Clica no link e vamos conversar de verdade.",
                 "options": [
                     {
-                        "label": "Gostei do desafio... vamos continuar essa conversa.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Um bom vinho e discrição total. Me chama no WhatsApp agora 🍷",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -570,42 +675,46 @@
                 "options": [
                     {
                         "label": "Se você for minha personal, eu treino todo dia com certeza!",
-                        "next": "treino"
+                        "next": "step_2"
                     },
                     {
                         "label": "Prefiro o pós-treino na praia com água de coco e você.",
-                        "next": "praia"
+                        "next": "step_2"
                     }
                 ]
             },
-            "treino": {
+            "step_2": {
                 "reply": "Haha adorei o foco! Mas aviso que não tenho pena nos treinos viu? Quero ver se você aguenta meu pique.",
                 "hasAudio": true,
                 "audioFile": "bia_obsidian_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "Acabei de sair do treino na praia todinha suada pensando em você... me chama no Whats pra gente papear!",
                 "options": [
                     {
-                        "label": "Pode pegar pesado que eu aguento o tranco!",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "praia": {
-                "reply": "Hummm água de coco e brisa do mar é a minha fraqueza... você tem bom gosto!",
-                "hasAudio": true,
-                "audioFile": "bia_obsidian_1.mp3",
-                "audioDuration": "0:09",
-                "audioText": "Acabei de sair do treino na praia todinha suada pensando em você... me chama no Whats pra gente papear!",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
                 "options": [
                     {
-                        "label": "Com você do lado qualquer momento fica perfeito.",
-                        "next": "final"
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
                     }
                 ]
             },
-            "final": {
-                "reply": "Vem pro meu WhatsApp pra gente combinar esse treino ou praia direto 🌊",
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -633,15 +742,15 @@
                 "options": [
                     {
                         "label": "Fernanda, o que houve? Vocês brigaram por quê?",
-                        "next": "desabafo"
+                        "next": "step_2"
                     },
                     {
                         "label": "Fê, melhor falar com uma amiga sua, vai pegar mal...",
-                        "next": "afeto"
+                        "next": "step_2"
                     }
                 ]
             },
-            "desabafo": {
+            "step_2": {
                 "reply": "Ele é frio comigo, não me valoriza... queria tanto que ele me tratasse com o carinho que você trata as mulheres. Tô chorando aqui sozinha no sofá...",
                 "hasAudio": true,
                 "audioFile": "fernanda_audio_1.mp3",
@@ -649,26 +758,30 @@
                 "audioText": "Tô me sentindo tão sozinha nesse apartamento... se você puder me dar uma atenção hoje, me responde aqui por favor.",
                 "options": [
                     {
-                        "label": "Fica calma, você é incrível. Eu tô aqui pra te apoiar.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "afeto": {
-                "reply": "Eu não quero amiga, eu queria o seu abraço agora... Você sempre foi tão protetor comigo. Posso desabafar com você?",
-                "hasAudio": true,
-                "audioFile": "fernanda_audio_1.mp3",
-                "audioDuration": "0:10",
-                "audioText": "Tô me sentindo tão sozinha nesse apartamento... se você puder me dar uma atenção hoje, me responde aqui por favor.",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
                 "options": [
                     {
-                        "label": "Claro que pode. Me conta tudo que eu te escuto.",
-                        "next": "final"
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
                     }
                 ]
             },
-            "final": {
-                "reply": "Obrigada por ser assim comigo... Vamos conversar no WhatsApp no sigilo antes que alguém chegue 🔒",
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -696,29 +809,46 @@
                 "options": [
                     {
                         "label": "Mulher experiente sabe exatamente o que quer, é o que mais me atrai.",
-                        "next": "experiente"
+                        "next": "step_2"
                     },
                     {
                         "label": "Pode ter certeza que coragem não me falta quando a mulher vale a pena.",
-                        "next": "experiente"
+                        "next": "step_2"
                     }
                 ]
             },
-            "experiente": {
+            "step_2": {
                 "reply": "Gostei da resposta firme. Aqui não tem joguinho infantil. Eu sei exatamente o que te falta e como te ensinar.",
                 "hasAudio": true,
                 "audioFile": "renata_obsidian_1.mp3",
-                "audioDuration": "0:11",
+                "audioDuration": "0:10",
                 "audioText": "Garotos da sua idade precisam de alguém experiente que mostre o ritmo certo. Quando a casa fica vazia, quem manda sou eu. Me responde no privado...",
                 "options": [
                     {
-                        "label": "Sou um aluno muito dedicado quando a professora sabe o que faz.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Então vem pro meu WhatsApp que a aula particular já vai começar 💋",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -746,15 +876,15 @@
                 "options": [
                     {
                         "label": "Mentira kkkk! Você mora no prédio da frente?",
-                        "next": "vizinha"
+                        "next": "step_2"
                     },
                     {
                         "label": "Então era você na sacada? Eu reparei mesmo...",
-                        "next": "vizinha"
+                        "next": "step_2"
                     }
                 ]
             },
-            "vizinha": {
+            "step_2": {
                 "reply": "Moro sim! Deixo a cortina entreaberta e fico curiosa pra saber o que você tá aprontando acordado essa hora.",
                 "hasAudio": true,
                 "audioFile": "sabrina_obsidian_1.mp3",
@@ -762,13 +892,30 @@
                 "audioText": "Deixo a cortina do meu quarto entreaberta de propósito... Reparei que você gosta de assistir. Que tal vir aqui conferir mais de perto?",
                 "options": [
                     {
-                        "label": "Acho que tá na hora de eu conferir isso de perto.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "A porta tá só encostada... me chama no Whats pra eu te mandar o número do apê 🗝️",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -796,15 +943,15 @@
                 "options": [
                     {
                         "label": "Doutora Patrícia? Aconteceu alguma urgência com o trabalho?",
-                        "next": "diretora"
+                        "next": "step_2"
                     },
                     {
                         "label": "É difícil não olhar pra uma mulher tão marcante quanto a senhora.",
-                        "next": "diretora"
+                        "next": "step_2"
                     }
                 ]
             },
-            "diretora": {
+            "step_2": {
                 "reply": "Esquece o trabalho por um instante e não me chame de senhora aqui. Quero saber se você tem coragem de ficar até mais tarde comigo hoje.",
                 "hasAudio": true,
                 "audioFile": "patricia_obsidian_1.mp3",
@@ -812,13 +959,30 @@
                 "audioText": "Fica até mais tarde hoje no escritório pra gente revisar aquele relatório... pedi um jantar só pra nós dois. Me chama no WhatsApp.",
                 "options": [
                     {
-                        "label": "A hora extra mais interessante que já me ofereceram. Aceito.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Seja muito discreto. Clica aqui embaixo pra gente falar no meu zap particular 🔒",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -846,15 +1010,15 @@
                 "options": [
                     {
                         "label": "Tô em casa sim Carla. Aconteceu alguma coisa?",
-                        "next": "condominio"
+                        "next": "step_2"
                     },
                     {
                         "label": "Também te vi no elevador... você tava deslumbrante.",
-                        "next": "condominio"
+                        "next": "step_2"
                     }
                 ]
             },
-            "condominio": {
+            "step_2": {
                 "reply": "Não aconteceu nada... só uma carência que eu não aguento mais fingir que não existe. Queria uma companhia pra tomar uma taça de vinho aqui.",
                 "hasAudio": true,
                 "audioFile": "carla_obsidian_1.mp3",
@@ -862,13 +1026,30 @@
                 "audioText": "Meu marido acabou de viajar a trabalho e o condomínio fica silencioso demais... vem me fazer companhia hoje à noite.",
                 "options": [
                     {
-                        "label": "Já tô separando uma garrafa boa pra levar aí.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Toca a campainha com cuidado... ou me manda mensagem no WhatsApp pra eu destrancar a porta 🍷",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -896,29 +1077,46 @@
                 "options": [
                     {
                         "label": "Oi Lucas! Meu dia foi corrido, mas ver sua mensagem melhorou tudo.",
-                        "next": "acolher"
+                        "next": "step_2"
                     },
                     {
                         "label": "Que cavalheiro... homens atenciosos assim estão em extinção!",
-                        "next": "acolher"
+                        "next": "step_2"
                     }
                 ]
             },
-            "acolher": {
+            "step_2": {
                 "reply": "Vem cá, deita a cabeça no meu ombro virtualmente. Me conta o que aconteceu, tô aqui só pra te ouvir e cuidar de você.",
                 "hasAudio": true,
                 "audioFile": "lucas_obsidian_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "Como tá seu dia, linda? Alguém te estressou hoje? Me conta que eu tô aqui pra cuidar de você.",
                 "options": [
                     {
-                        "label": "Adoro sua calma... queria esse abraço agora.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Clica aqui embaixo pra gente conversar no WhatsApp no conforto do seu celular ☕",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -946,29 +1144,46 @@
                 "options": [
                     {
                         "label": "Tava esperando uma mensagem sua aparecer pra animar a noite!",
-                        "next": "badboy"
+                        "next": "step_2"
                     },
                     {
                         "label": "Curiosa com esse ar de misterioso e essas tatuagens...",
-                        "next": "badboy"
+                        "next": "step_2"
                     }
                 ]
             },
-            "badboy": {
+            "step_2": {
                 "reply": "Haha, você não perde tempo né? Gosto de garota assim que sustenta a troca de olhar. Cada tattoo minha tem uma história que quero te contar.",
                 "hasAudio": true,
                 "audioFile": "gabriel_obsidian_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "Tava aqui no estúdio tocando e pensando naquele teu olhar... não aguento mais esperar você me responder no particular.",
                 "options": [
                     {
-                        "label": "Quero ouvir todas as histórias de perto.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Bora pro WhatsApp que te mando fotos das novas artes agora 🎸",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -996,29 +1211,46 @@
                 "options": [
                     {
                         "label": "Boa noite Rodrigo! Adorei a elegância das suas palavras.",
-                        "next": "mimo"
+                        "next": "step_2"
                     },
                     {
                         "label": "Homem de postura e que sabe elogiar é raro hoje.",
-                        "next": "mimo"
+                        "next": "step_2"
                     }
                 ]
             },
-            "mimo": {
+            "step_2": {
                 "reply": "Faço questão de tratar como rainha quem está ao meu lado. Gosto de escolher os melhores restaurantes e viagens.",
                 "hasAudio": true,
                 "audioFile": "rodrigo_obsidian_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "Gosto de mimar quem tá do meu lado e você merece o melhor. Vamos jantar essa semana? Me responde no WhatsApp.",
                 "options": [
                     {
-                        "label": "Um convite desses não dá pra recusar.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Me passa seu WhatsApp ou me chama aqui pra eu te mandar os detalhes 🥂",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -1046,29 +1278,46 @@
                 "options": [
                     {
                         "label": "Kkkk que fofo! Adorei a sinceridade.",
-                        "next": "game"
+                        "next": "step_2"
                     },
                     {
                         "label": "Você cria jogos mesmo? Que incrível!",
-                        "next": "game"
+                        "next": "step_2"
                     }
                 ]
             },
-            "game": {
+            "step_2": {
                 "reply": "Crio sim! Mas hoje o único jogo que eu quero zerar é descobrir como te fazer rir a noite toda.",
                 "hasAudio": true,
                 "audioFile": "mateus_obsidian_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "Passei a tarde programando e doido pra conversar com você. Bora maratonar uma série juntos hoje?",
                 "options": [
                     {
-                        "label": "Bora! Qual série a gente começa hoje?",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Me chama no WhatsApp pra gente escolher no catálogo agora 🎮",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -1096,42 +1345,46 @@
                 "options": [
                     {
                         "label": "Marcos, você tá louco?? Ela é minha melhor amiga!",
-                        "next": "tensa"
+                        "next": "step_2"
                     },
                     {
                         "label": "O que você tá querendo com isso, Marcos?",
-                        "next": "direto"
+                        "next": "step_2"
                     }
                 ]
             },
-            "tensa": {
+            "step_2": {
                 "reply": "Eu sei que é loucura... tentei disfarçar o quanto pude, mas aquele seu olhar na cozinha acabou comigo. Eu precisava te falar isso.",
                 "hasAudio": true,
                 "audioFile": "marcos_audio_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "Eu tô no quarto de hóspedes falando baixinho. A Ju acabou de dormir. Me responde antes que alguém veja.",
                 "options": [
                     {
-                        "label": "Marcos... a gente não pode, mas você me deixa sem ar.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "direto": {
-                "reply": "Queria que fosse você aqui deitada do meu lado agora. Se você tiver um pingo de curiosidade... me responde no particular.",
-                "hasAudio": true,
-                "audioFile": "marcos_audio_1.mp3",
-                "audioDuration": "0:09",
-                "audioText": "Eu tô no quarto de hóspedes falando baixinho. A Ju acabou de dormir. Me responde antes que alguém veja.",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
                 "options": [
                     {
-                        "label": "Você é muito ousado... vamos conversar com calma.",
-                        "next": "final"
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
                     }
                 ]
             },
-            "final": {
-                "reply": "Salva meu contato e vem pro WhatsApp no sigilo total 🔒",
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -1159,42 +1412,46 @@
                 "options": [
                     {
                         "label": "Doutor César? Aconteceu alguma urgência na empresa?",
-                        "next": "empresa"
+                        "next": "step_2"
                     },
                     {
                         "label": "Nossa, achei que o senhor fosse super sério...",
-                        "next": "serio"
+                        "next": "step_2"
                     }
                 ]
             },
-            "empresa": {
+            "step_2": {
                 "reply": "Esquece a empresa por um minuto. Não me chame de doutor aqui. Eu quero saber até quando você vai fingir que não percebe o jeito que eu te olho.",
                 "hasAudio": true,
                 "audioFile": "cesar_audio_1.mp3",
-                "audioDuration": "0:08",
+                "audioDuration": "0:10",
                 "audioText": "Seja discreta. Ninguém no escritório pode imaginar. Vamos conversar de verdade.",
                 "options": [
                     {
-                        "label": "O senhor me desconcertou agora...",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "serio": {
-                "reply": "Sou sério com negócios. Com o que eu desejo, sou direto. Quero te fazer uma proposta que não tem nada a ver com trabalho.",
-                "hasAudio": true,
-                "audioFile": "cesar_audio_1.mp3",
-                "audioDuration": "0:08",
-                "audioText": "Seja discreta. Ninguém no escritório pode imaginar. Vamos conversar de verdade.",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
                 "options": [
                     {
-                        "label": "Estou curiosa para ouvir essa proposta.",
-                        "next": "final"
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
                     }
                 ]
             },
-            "final": {
-                "reply": "Seja discreta. Clica aqui embaixo e vamos continuar em privado 💼",
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -1222,15 +1479,15 @@
                 "options": [
                     {
                         "label": "Aconteceu algum problema na reforma da casa?",
-                        "next": "reforma"
+                        "next": "step_2"
                     },
                     {
                         "label": "Eita, que pedreiro atrevido kkkkk",
-                        "next": "atrevido"
+                        "next": "step_2"
                     }
                 ]
             },
-            "reforma": {
+            "step_2": {
                 "reply": "Na reforma tá tudo certo. O problema sou eu que senti teu cheiro quando você passou de shortinho na sala e quase martelo meu dedo. Você me desconcentrou todinho.",
                 "hasAudio": true,
                 "audioFile": "tiago_audio_1.mp3",
@@ -1238,26 +1495,30 @@
                 "audioText": "Tô saindo da obra agora suado, doido pra tomar um banho e mandar um áudio de verdade pra você. Me dá uma moral aí!",
                 "options": [
                     {
-                        "label": "Você não existe Tiago kkk me fez rir agora.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "atrevido": {
-                "reply": "Sou trabalhador, mas não sou cego né? Você é bonita demais. Amanhã cedo tô aí de novo, mas queria papear com você hoje à noite...",
-                "hasAudio": true,
-                "audioFile": "tiago_audio_1.mp3",
-                "audioDuration": "0:10",
-                "audioText": "Tô saindo da obra agora suado, doido pra tomar um banho e mandar um áudio de verdade pra você. Me dá uma moral aí!",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
                 "options": [
                     {
-                        "label": "Trabalhador focado assim merece uma conversa.",
-                        "next": "final"
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
                     }
                 ]
             },
-            "final": {
-                "reply": "Aí sim! Clica aí embaixo pra gente falar no zap sem pressa 🔨",
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -1285,42 +1546,46 @@
                 "options": [
                     {
                         "label": "Nossa, que susto achei que tinha perdido mesmo kkk",
-                        "next": "susto"
+                        "next": "step_2"
                     },
                     {
                         "label": "Você faz isso com todas as passageiras, é?",
-                        "next": "todas"
+                        "next": "step_2"
                     }
                 ]
             },
-            "susto": {
+            "step_2": {
                 "reply": "Kkkk desculpa o golpe! Mas se eu não mandasse mensagem na hora ia passar a noite me arrependendo de não ter pedido seu número pessoalmente.",
                 "hasAudio": true,
                 "audioFile": "renan_audio_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "Acabei de desligar o app da Uber por hoje só pra poder ficar papeando com você sem pressa. Me responde no privado vai!",
                 "options": [
                     {
-                        "label": "Foi esperto! Cheguei bem em casa sim.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "todas": {
-                "reply": "Deus me livre, rodo a noite toda e nunca fiz isso. Mas você tem uma energia diferente, me hipnotizou total. Já chegou bem em casa?",
-                "hasAudio": true,
-                "audioFile": "renan_audio_1.mp3",
-                "audioDuration": "0:09",
-                "audioText": "Acabei de desligar o app da Uber por hoje só pra poder ficar papeando com você sem pressa. Me responde no privado vai!",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
                 "options": [
                     {
-                        "label": "Cheguei sim! Adorei a corrida e a atitude.",
-                        "next": "final"
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
                     }
                 ]
             },
-            "final": {
-                "reply": "Que bom! Clica no link e me chama no WhatsApp pra gente conversar com calma 🚗",
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -1348,29 +1613,46 @@
                 "options": [
                     {
                         "label": "Quem é você? Tá doido mandar mensagem assim?",
-                        "next": "baile"
+                        "next": "step_2"
                     },
                     {
                         "label": "Danilo? O do camarote do baile? Mentira kkk",
-                        "next": "baile"
+                        "next": "step_2"
                     }
                 ]
             },
-            "baile": {
+            "step_2": {
                 "reply": "Eu mesmo. Aqui no pedaço ninguém encosta a mão em você. Sobe aqui pro camarote hoje que você tá escoltada comigo.",
                 "hasAudio": true,
                 "audioFile": "danilo_obsidian_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "Tô aqui no posto com os manos... me chama no particular pra eu te mandar a localização do camarote. Vem sem medo.",
                 "options": [
                     {
-                        "label": "Gostei da postura... me manda a localização.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Chama no particular pra eu te colocar na lista vip agora 🔥",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -1398,29 +1680,46 @@
                 "options": [
                     {
                         "label": "Gustavo? Se meu pai sonhar com isso ele surta!",
-                        "next": "segredo"
+                        "next": "step_2"
                     },
                     {
                         "label": "Achei que você não tivesse reparado em mim...",
-                        "next": "segredo"
+                        "next": "step_2"
                     }
                 ]
             },
-            "segredo": {
+            "step_2": {
                 "reply": "Seu pai não vai saber de nada, isso morre entre nós. Sou homem maduro, sei exatamente como manter segredo.",
                 "hasAudio": true,
                 "audioFile": "gustavo_obsidian_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "Seu pai confia muito em mim... mas o jeito que você passou na sala me deixou louco. Isso é um segredo nosso, tá?",
                 "options": [
                     {
-                        "label": "Promete que fica só entre a gente?",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Palavra de homem. Clica aqui e me chama no WhatsApp no sigilo 🔒",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -1448,29 +1747,46 @@
                 "options": [
                     {
                         "label": "Professor atrevido! Achei que você só prestasse atenção na carga.",
-                        "next": "personal"
+                        "next": "step_2"
                     },
                     {
                         "label": "Você segurou na minha cintura mais tempo que o normal...",
-                        "next": "personal"
+                        "next": "step_2"
                     }
                 ]
             },
-            "personal": {
+            "step_2": {
                 "reply": "Com uma aluna linda dessas na minha frente, é impossível focar só no treino. Quero saber se você tem tempo pra uma aula particular fora da academia.",
                 "hasAudio": true,
                 "audioFile": "eduardo_obsidian_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "Aquele teu olhar no espelho da academia quase me fez perder a postura... Me chama no zap pra gente combinar nosso treino.",
                 "options": [
                     {
-                        "label": "Gostei da proposta de aula particular.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Me chama no WhatsApp pra eu montar seu treino exclusivo 🔥",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -1498,29 +1814,46 @@
                 "options": [
                     {
                         "label": "Como assim ele passou meu número? O que você quer?",
-                        "next": "irmao"
+                        "next": "step_2"
                     },
                     {
                         "label": "Felipe? Mentira kkkk você tem coragem mesmo né?",
-                        "next": "irmao"
+                        "next": "step_2"
                     }
                 ]
             },
-            "irmao": {
+            "step_2": {
                 "reply": "É que eu não aguentei... toda vez que vou aí na sua casa jogar videogame eu fico hipnotizado quando você passa na sala. Promete que não conta pra ele?",
                 "hasAudio": true,
                 "audioFile": "felipe_obsidian_1.mp3",
-                "audioDuration": "0:09",
+                "audioDuration": "0:10",
                 "audioText": "Sério, seu irmão tá ali na sala... se ele sonhar que eu tô falando com você ele me mata. Clica aqui embaixo pra gente falar no sigilo.",
                 "options": [
                     {
-                        "label": "Prometo! Mas me chama no particular pra ele não ver.",
-                        "next": "final"
+                        "label": "Sua voz e esse papo me prenderam... você é sempre assim?",
+                        "next": "step_4"
+                    },
+                    {
+                        "label": "Também tava precisando de uma conexão assim hoje.",
+                        "next": "step_4"
                     }
                 ]
             },
-            "final": {
-                "reply": "Vem pro WhatsApp antes que ele venha aqui no quarto 🤫",
+            "step_4": {
+                "reply": "Só sou assim com quem me desperta esse frio na barriga... Sinto que a gente combina muito. Mas as mensagens demo por aqui já tão no limite!",
+                "options": [
+                    {
+                        "label": "Quero continuar conversando com você sem limites!",
+                        "next": "step_6"
+                    },
+                    {
+                        "label": "Como faço pra liberar nosso acesso completo agora?",
+                        "next": "step_6"
+                    }
+                ]
+            },
+            "step_6": {
+                "reply": "Clica no botão aqui embaixo e preenche rapidinho seu perfil pra gente continuar no chat VIP oficial com fotos e áudios exclusivos! 🥰",
                 "isCTA": true
             }
         }
@@ -2265,6 +2598,73 @@
         `;
         list.appendChild(row);
       });
+    }
+
+    
+    /* ---------------------------------------------
+       8. MODAL DE CADASTRO (CTA FINAL APÓS DEMO)
+       --------------------------------------------- */
+    function openSignupModal() {
+      playSfx('match');
+      const modal = document.getElementById('modal-signup');
+      if (!modal) return;
+
+      if (activeChatPersona) {
+        document.getElementById('signup-avatar').src = activeChatPersona.photo;
+        document.getElementById('signup-persona-name').innerText = activeChatPersona.name;
+      }
+
+      // Máscara de telefone
+      const phoneInput = document.getElementById('reg-phone');
+      if (phoneInput && !phoneInput.dataset.masked) {
+        phoneInput.dataset.masked = 'true';
+        phoneInput.addEventListener('input', (e) => {
+          let v = e.target.value.replace(/\D/g, '');
+          if (v.length > 11) v = v.substring(0, 11);
+          if (v.length > 6) v = `(${v.substring(0, 2)}) ${v.substring(2, 7)}-${v.substring(7)}`;
+          else if (v.length > 2) v = `(${v.substring(0, 2)}) ${v.substring(2)}`;
+          else if (v.length > 0) v = `(${v}`;
+          e.target.value = v;
+        });
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeSignupModal() {
+      const modal = document.getElementById('modal-signup');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function handleSignupSubmit(e) {
+      e.preventDefault();
+      playSfx('match');
+      const name = document.getElementById('reg-name').value;
+      const phone = document.getElementById('reg-phone').value;
+      const email = document.getElementById('reg-email').value;
+
+      console.log('Lead cadastrado:', { name, phone, email, persona: activeChatPersona?.name });
+
+      // Oculta form e mostra mensagem de sucesso
+      document.getElementById('signup-form').classList.add('hidden');
+      document.getElementById('signup-subtitle').classList.add('hidden');
+      document.getElementById('signup-success').classList.remove('hidden');
+      document.getElementById('success-persona-name').innerText = activeChatPersona ? activeChatPersona.name : 'sua conexão';
+    }
+
+    function finishSignupAndContinue() {
+      closeSignupModal();
+      const history = chatHistories[activeChatPersona.id];
+      history.push({
+        sender: 'persona',
+        text: `Seja muito bem-vindo, meu amor! Agora que você é VIP temos muito o que conversar... ❤️`,
+        time: 'Agora'
+      });
+      renderChatHistory(activeChatPersona.id);
+      document.getElementById('chat-input').placeholder = 'Digite sua mensagem...';
+      document.getElementById('quick-replies-container').innerHTML = `
+        <span class="text-[11px] text-emerald-400 font-bold px-3 py-1 bg-emerald-500/10 rounded-lg">✓ Conta VIP Liberada</span>
+      `;
     }
 
     // Inicialização ao carregar
