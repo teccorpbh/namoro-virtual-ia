@@ -1,0 +1,13 @@
+{
+  "name": "namorai",
+  "compatibility_date": "2025-01-01",
+  "assets": {
+    "directory": "."
+  },
+  "routes": [
+    {
+      "pattern": "namorai.oneleads.com.br/*",
+      "zone_name": "oneleads.com.br"
+    }
+  ]
+}
